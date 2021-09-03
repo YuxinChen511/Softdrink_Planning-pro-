@@ -1,0 +1,29 @@
+Warning at line 4 in user-defined function section "ReadDemandDataFromDatabase".
+Missing semicolon at the end of a procedure body is deprecated. A future AIMMS version may give a compilation error on this.
+Warning at line 4 in user-defined function section "ReadDemandDataFromDatabase".
+Missing semicolon at the end of a procedure body is deprecated. A future AIMMS version may give a compilation error on this.
+Semantic error at line 1 in user-defined function section "DetermineMaintenance", column 1.
+The identifier "ElementParameter" has not been declared.
+Syntax error at line 12 in user-defined function section "DetermineMaintenance", column 57.
+The symbol "|" is not expected.
+Semantic error at line 2, column 7 in body of internal procedure "PrepareDataForNextRoll".
+A numeric expression cannot be cast to an element of the declaration set "Location".
+Semantic error at line 3, column 8 in body of internal procedure "PrepareDataForNextRoll".
+A numeric expression cannot be cast to an element of the declaration set "Location".
+Semantic error at line 3, column 10 in body of internal procedure "PrepareDataForNextRoll".
+The set "days" does not share the same root set as the declaration set "Periods".
+Semantic error at line 3, column 10 in body of internal procedure "PrepareDataForNextRoll".
+The set "days" does not share the same root set as the declaration set "Periods".
+Semantic error at line 3, column 10 in body of internal procedure "PrepareDataForNextRoll".
+The set "days" does not share the same root set as the declaration set "Periods".
+Semantic error at line 3, column 10 in body of internal procedure "PrepareDataForNextRoll".
+The set "days" does not share the same root set as the declaration set "Periods".
+Semantic error at line 3, column 10 in body of internal procedure "PrepareDataForNextRoll".
+The set "days" does not share the same root set as the declaration set "Periods".
+Semantic error at line 632.
+The internal procedure "MainTermination" has already been declared as a user-defined function.  Please use another name.
+Warning at line 4 in user-defined function section "ReadDemandDataFromDatabase".
+Missing semicolon at the end of a procedure body is deprecated. A future AIMMS version may give a compilation error on this.
+Warning: The indexed set "VacationWeeks" is not initialized (default values are used).
+Warning: The parameter "ActualNumberOfDaysInPeriod" is not initialized (default values are used).
+Warning: The parameter "LineInMaintenance" is not initialized (default values are used).

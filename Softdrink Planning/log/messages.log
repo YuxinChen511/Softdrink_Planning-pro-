@@ -1,0 +1,16 @@
+﻿There is a new version of solver 'CPLEX' available, namely version 'CPLEX 12.8'.
+There is 78.547 Mb in use.
+Warning: Missing semicolon at the end of a procedure body is deprecated.
+A future AIMMS version may give a compilation error on this.
+Warning: Missing semicolon at the end of a procedure body is deprecated.
+A future AIMMS version may give a compilation error on this.
+Semantic error at line 632.
+The internal procedure "MainTermination" has already been declared as a user-defined function. 
+Please use another name.
+
+There is 108.465 Mb in use.
+Warning: Missing semicolon at the end of a procedure body is deprecated.
+A future AIMMS version may give a compilation error on this.
+Warning: The indexed set "VacationWeeks" is not initialized (default values are used).
+Warning: The parameter "ActualNumberOfDaysInPeriod" is not initialized (default values are used).
+Warning: The parameter "LineInMaintenance" is not initialized (default values are used).
