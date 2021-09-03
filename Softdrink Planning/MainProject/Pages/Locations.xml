@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-02 05:15:19">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Network Object">
+		<Location top="30" left="72" bottom="486" right="456" />
+		<TabOrder>1</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<HorizontalScrollbar>true</HorizontalScrollbar>
+		<VerticalScrollbar>true</VerticalScrollbar>
+		<EqualXYScale>false</EqualXYScale>
+		<ScrollControl>NoScrolling</ScrollControl>
+		<VisibleArea>
+			<Left>3.3</Left>
+			<Right>7.3</Right>
+			<Top>53.5</Top>
+			<Bottom>50.7</Bottom>
+		</VisibleArea>
+		<Background>
+			<Background_Image_Source ID="101">"From File"</Background_Image_Source>
+			<Image_File_Name ID="200" LiteralFileName="true">"Bitmaps\Netherlands.bmp"</Image_File_Name>
+			<Left ID="210">3.3</Left>
+			<Right ID="211">7.3</Right>
+			<Top ID="212">53.5</Top>
+			<Bottom ID="213">50.7</Bottom>
+		</Background>
+		<Node>
+			<Identifier>l</Identifier>
+			<XCoordinate>XCoordinate( l )</XCoordinate>
+			<YCoordinate>YCoordinate( l )</YCoordinate>
+			<NumberFormat Width="6" Decimals="2" />
+			<MaximumSize>8</MaximumSize>
+			<TextPosition>Right</TextPosition>
+			<TextShowWhat>ElementName</TextShowWhat>
+		</Node>
+	</PageObject>
+	<UsedReferences>
+		<Model>
+			<Symbol>l</Symbol>
+			<Symbol>XCoordinate</Symbol>
+			<Symbol>YCoordinate</Symbol>
+		</Model>
+	</UsedReferences>
+</Page>
