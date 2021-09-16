@@ -1,0 +1,16 @@
+﻿There is 75.414 Mb in use.
+Warning: The element 'AccumulatedTotalCost' is not in the set "AllIdentifiers".
+Execution error at line 1 in user-defined function section "SaveCase" (while evaluating the definition of set "AccumulateTotalCostIdentifiers").
+The element 'AccumulatedTotalCost' is not in the set "AllIdentifiers".
+
+CPLEX: If you want to find out whether the problem is infeasible or unbounded then try to run it with the CPLEX
+       option 'Presolve' set to 'no'.
+Warning: After 622 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+CPLEX: If you want to find out whether the problem is infeasible or unbounded then try to run it with the CPLEX
+       option 'Presolve' set to 'no'.
+Warning: After 622 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+CPLEX: If you want to find out whether the problem is infeasible or unbounded then try to run it with the CPLEX
+       option 'Presolve' set to 'no'.
+Warning: After 1185 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+Warning: The element parameter "DisplayedFactory" is not initialized (default values are used).
+Warning: The element parameter "DisplayedCenter" is not initialized (default values are used).

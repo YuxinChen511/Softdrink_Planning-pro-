@@ -1,0 +1,14 @@
+Warning at line 1276.
+The element 'AccumulatedTotalCost' is not in the set "AllIdentifiers".
+Execution error at line 1 in user-defined function section "SaveCase" (while evaluating the definition of set "AccumulateTotalCostIdentifiers").
+The element 'AccumulatedTotalCost' is not in the set "AllIdentifiers".
+Warning at line 1 in user-defined function section "SolveLeastCostPlan".
+After 622 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+Halt call (no error): "Least cost mathematical program is not optimal.
+Checkinput data for infeasibilities."
+Warning at line 1 in user-defined function section "SolveLeastCostPlan".
+After 622 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+Warning at line 1 in user-defined function section "SolveLeastCostPlan".
+After 1185 iterations the preprocessor of CPLEX 12.6.3 concluded that LeastCostPlan is infeasible or unbounded.
+Warning: The element parameter "DisplayedFactory" is not initialized (default values are used).
+Warning: The element parameter "DisplayedCenter" is not initialized (default values are used).
