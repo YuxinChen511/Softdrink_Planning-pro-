@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-14 07:19:32">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Gantt Chart">
+		<Location top="54" left="198" bottom="180" right="816" />
+		<TabOrder>2</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<VerticalGridLines>true</VerticalGridLines>
+		<StatusLine>true</StatusLine>
+		<Calendar>
+			<Items>mwY</Items>
+			<MeasurementFactor>1</MeasurementFactor>
+			<MeasurementUnit>weeks</MeasurementUnit>
+			<ReferenceTime>"2000-06-26"</ReferenceTime>
+			<LeftBound>BeginDateOfCalendar</LeftBound>
+			<RightBound>EndDateOfCalendar</RightBound>
+		</Calendar>
+		<IndexLocations>
+			<RowDomain>f</RowDomain>
+			<LegendDomain>v</LegendDomain>
+		</IndexLocations>
+		<TaskGroup>
+			<Domain>VacationGanttChartDuration( f, w, v )</Domain>
+			<Start>VacationGanttChartStartingWeek( w )</Start>
+			<Duration>VacationGanttChartDuration( f, w, v )</Duration>
+			<ProcedureUponSelect>ToggleVacationGanttChart( f, w )</ProcedureUponSelect>
+		</TaskGroup>
+	</PageObject>
+	<PageObject Type="Gantt Chart">
+		<Location top="210" left="198" bottom="312" right="816" />
+		<TabOrder>7</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<VerticalGridLines>true</VerticalGridLines>
+		<StatusLine>true</StatusLine>
+		<Calendar>
+			<Items>dm7Y</Items>
+			<MeasurementFactor>1</MeasurementFactor>
+			<MeasurementUnit>days</MeasurementUnit>
+			<ReferenceTime>BeginDateOfCalendar</ReferenceTime>
+			<LeftBound>HolidayGanttChartLeftBound</LeftBound>
+			<RightBound>HolidayGanttChartRightBound</RightBound>
+		</Calendar>
+		<IndexLocations>
+			<LegendDomain>h</LegendDomain>
+		</IndexLocations>
+		<TaskGroup>
+			<Domain>HolidayGanttChartDuration( d, h )</Domain>
+			<Start>HolidayGanttCharStartingDay( d )</Start>
+			<Duration>HolidayGanttChartDuration( d, h )</Duration>
+			<ProcedureUponSelect>ToggleHolidayGanttChar( d )</ProcedureUponSelect>
+		</TaskGroup>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="354" left="198" bottom="450" right="324" />
+		<TabOrder>6</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>VacationWeeks( 'Eindhoven', Weeks )</Identifier>
+			<Index Name="Weeks" />
+		</Domain>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="354" left="336" bottom="450" right="462" />
+		<TabOrder>3</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>VacationWeeks( 'Haarlem', Weeks )</Identifier>
+			<Index Name="Weeks" />
+		</Domain>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="354" left="474" bottom="450" right="600" />
+		<TabOrder>4</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>VacationWeeks( 'Zwolle', Weeks )</Identifier>
+			<Index Name="Weeks" />
+		</Domain>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="342" left="612" bottom="450" right="816" />
+		<TabOrder>5</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>OfficialHolidays( days )</Identifier>
+			<Index Name="days" />
+		</Domain>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="30" left="198" bottom="54" right="528" />
+		<StaticText>Vacation Specification</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="186" left="198" bottom="210" right="528" />
+		<StaticText>Holiday Specification</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="318" left="198" bottom="342" right="528" />
+		<StaticText>Vacation Weeks</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="336" left="198" bottom="360" right="528" />
+		<StaticText>Eindhoven</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="336" left="336" bottom="360" right="666" />
+		<StaticText>Haarlem</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="336" left="474" bottom="360" right="804" />
+		<StaticText>Zwolle</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="318" left="618" bottom="342" right="948" />
+		<StaticText>Official Holidays</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="30" left="192" bottom="186" right="822" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="186" left="192" bottom="318" right="822" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="318" left="192" bottom="456" right="606" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="318" left="606" bottom="456" right="822" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<UsedReferences>
+		<Model>
+			<Symbol>EndDateOfCalendar</Symbol>
+			<Symbol>BeginDateOfCalendar</Symbol>
+			<Symbol>Weeks</Symbol>
+			<Symbol>days</Symbol>
+			<Symbol>OfficialHolidays</Symbol>
+			<Symbol>VacationWeeks</Symbol>
+			<Symbol>ToggleHolidayGanttChar</Symbol>
+			<Symbol>HolidayGanttChartRightBound</Symbol>
+			<Symbol>HolidayGanttChartLeftBound</Symbol>
+			<Symbol>HolidayGanttChartDuration</Symbol>
+			<Symbol>HolidayGanttCharStartingDay</Symbol>
+			<Symbol>ToggleVacationGanttChart</Symbol>
+			<Symbol>VacationGanttChartStartingWeek</Symbol>
+			<Symbol>VacationGanttChartDuration</Symbol>
+			<Symbol>w</Symbol>
+			<Symbol>d</Symbol>
+			<Symbol>f</Symbol>
+			<Symbol>h</Symbol>
+			<Symbol>v</Symbol>
+		</Model>
+	</UsedReferences>
+</Page>

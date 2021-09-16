@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<PageManager>
+	<Page Name="Multiple Case Overview" PageGUID="4A7041D1-7A3C-4DE8-ABDA-3F3F054C46E2" />
+	<Page Name="About Softdrink Planning" PageGUID="B3152C04-864B-4E4F-ADCF-11DDA068855A" />
+	<Page Name="Locations" PageGUID="E25677C7-D96D-443F-99DB-A0FE899BA36F" />
+	<Page Name="Contents" PageGUID="82534477-6A9C-4D99-8BA9-2B7B8A2968A8">
+		<Page Name="Production Overview" PageGUID="F0A6D9A3-4F01-4C71-B0ED-D986E09851D3" />
+		<Page Name="Transport Overview" PageGUID="9C835665-9AE9-411B-9C44-257C21523FED" />
+		<Page Name="Absentee Overview" PageGUID="F4B44EEA-090F-4504-B9F3-4BD59D98F6D2" />
+		<Page Name="Planning Overview" PageGUID="2D0E3DB2-7C5E-484F-B280-E65168BDA488" />
+		<Page Name="Scenario Overview" PageGUID="1489773F-7C30-4486-A0AF-D7FC2F0F4798" />
+	</Page>
+</PageManager>

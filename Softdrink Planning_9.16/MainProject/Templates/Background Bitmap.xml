@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-14 07:19:32" NeedsCompiledModel="false">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<MenuBar ProjectUUID="F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5" MenuUUID="D2D9E095-49AA-4CAF-A708-644B8E4E0F0B" />
+	<Background Inherited="true" />
+	<PageObject Type="Picture">
+		<Location top="30" left="174" bottom="462" right="936" />
+		<FileName LiteralFileName="true">"Bitmaps\Background1.bmp"</FileName>
+		<Display>Multiple</Display>
+	</PageObject>
+	<UsedReferences>
+		<Model />
+	</UsedReferences>
+</Page>

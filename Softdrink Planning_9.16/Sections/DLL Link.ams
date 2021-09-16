@@ -1,0 +1,23 @@
+## ams_version=1.0
+
+Section DLL_Link {
+    ExternalFunction ExternalUnitTransportCost {
+        Arguments: (factory,center);
+        DllName: "DLL\\External Routines.dll";
+        ReturnType: double;
+        BodyCall: {
+            DLLUnitTransportCost(
+              scalar string : factory,
+              scalar string : center
+            )
+        }
+        ElementParameter factory {
+            Range: Factories;
+            Property: Input;
+        }
+        ElementParameter center {
+            Range: Centers;
+            Property: Input;
+        }
+    }
+}

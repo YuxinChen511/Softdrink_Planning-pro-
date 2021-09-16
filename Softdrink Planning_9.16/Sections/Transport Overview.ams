@@ -1,0 +1,46 @@
+## ams_version=1.0
+
+Section Transport_Overview {
+    Procedure SelectLocationInNetwork {
+        Arguments: (SelectedLocation);
+        Body: {
+            if ( SelectedLocation in Factories)
+            then DisplayedFactory := SelectedLocation ;
+            else DisplayedCenter := SelectedLocation ;
+            endif;
+        }
+        ElementParameter SelectedLocation {
+            Range: Locations;
+            Property: Input;
+        }
+    }
+    DeclarationSection Transpoer_Overview_Declaration {
+        StringParameter CenterDescription {
+            Definition: FormatString( "%e" , DisplayedCenter );
+        }
+        StringParameter ShortPeriodDescription {
+            IndexDomain: t;
+            Definition: {
+                if (WeekInPeriod(t) )
+                then FormatString( "%n" , TimeslotCharacteristic( WeekInPeriod(t), 'week' ) )
+                else ""
+                endif
+            }
+        }
+        StringParameter FactoryDescription {
+            Definition: FormatString( "%e", DisplayedFactory );
+        }
+        ElementParameter DisplayedFactory {
+            Range: Factories;
+        }
+        ElementParameter DisplayedCenter {
+            Range: Centers;
+        }
+        ElementParameter DisplayedPeriod {
+            Range: Periods;
+        }
+        ElementParameter DisplayScenario {
+            Range: Scenarios;
+        }
+    }
+}

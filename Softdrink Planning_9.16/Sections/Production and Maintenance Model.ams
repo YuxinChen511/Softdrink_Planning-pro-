@@ -1,0 +1,203 @@
+## ams_version=1.0
+
+Section Production_and_Maintainance_Model {
+    DeclarationSection Location_Declarations {
+        Set Locations {
+            Index: l;
+        }
+        Parameter XCoordinate {
+            IndexDomain: l;
+        }
+        Parameter YCoordinate {
+            IndexDomain: l;
+        }
+        Set Factories {
+            SubsetOf: Locations;
+            Index: f;
+        }
+        Set Centers {
+            SubsetOf: Locations;
+            Index: c;
+        }
+    }
+    DeclarationSection Scenario_Declarations {
+        Set Scenarios {
+            Index: s;
+            Definition: data { pessimistic, expected, optimistic };
+        }
+        Parameter ScenarioProbability {
+            IndexDomain: s;
+            Definition: data { pessimistic : 0.25, expected : 0.50, optimistic : 0.25};
+        }
+    }
+    DeclarationSection Production_Declarations {
+        Set ProductionLines {
+            Index: p;
+            Definition: data { line-01 .. line-04 };
+        }
+        Parameter NumberOfProductionLines {
+            IndexDomain: f;
+        }
+        Set FactoryProductionLines {
+            IndexDomain: f;
+            SubsetOf: ProductionLines;
+            Definition: {
+                { p | Ord(p) <= NumberOfProductionLines(f) }
+            }
+        }
+        Parameter FactoryProductionLineExists {
+            IndexDomain: (f,p);
+            Range: binary;
+            Definition: Ord(p) <= NumberOfProductionLines(f);
+        }
+        Parameter DeteriorationLevel {
+            IndexDomain: (f,p) | FactoryProductionLineExists(f, p);
+        }
+        Parameter DeteriorationLevelAtStartOfCalendar {
+            IndexDomain: (f,p) | p in FactoryProductionLines(f);
+        }
+        Parameter MaximumDeteriorationLevel {
+            IndexDomain: (f,p) | p in FactoryProductionLines(f);
+        }
+        Parameter ProductionLineLevelAtStartOfCalendar {
+            IndexDomain: (f,p) | p in FactoryProductionLines(f);
+            Unit: hl/day;
+        }
+        Parameter MaximumProductionLineLevel {
+            IndexDomain: (f,p) | p in FactoryProductionLines(f);
+            Unit: hl/day;
+        }
+        Parameter PotentialProduction {
+            IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+            Unit: hl;
+            Definition: AcctualNumverOfDaysInPeriod(t) * (1- LineInMaintenance(f,p,t) )*(1- DropDueToVacation * IsVacationPeriod(f,t) ) * MaximumProductionLineLevel(f,p);
+        }
+    }
+    DeclarationSection Supply_and_Demand_Declarations {
+        Parameter Demand {
+            IndexDomain: (c,t,s);
+            Unit: hl;
+        }
+        Parameter MinimumStock {
+            IndexDomain: l;
+            Unit: hl;
+        }
+        Parameter MaximumStock {
+            IndexDomain: l;
+            Unit: hl;
+        }
+        Parameter StockAtStartOfCalendar {
+            IndexDomain: l;
+            Unit: hl;
+        }
+        Parameter MaximumTransportCapacity {
+            IndexDomain: f;
+            Unit: TL;
+        }
+    }
+    DeclarationSection Maintenance_and_Vacation_Declarations {
+        Parameter LineInMaintenance {
+            IndexDomain: (f,p,t);
+            Range: binary;
+        }
+        Set VacationWeeks {
+            IndexDomain: f;
+            SubsetOf: Weeks;
+            Definition: {
+                { w | VacationGanttChartDuration(f,w,'Vacation') }
+            }
+        }
+        Parameter DropDueToVacation {
+            InitialData: 0.4;
+        }
+        Parameter IsVacationPeriod {
+            IndexDomain: (f,t);
+            Range: binary;
+            Definition: {
+                if ( WeekInPeriod(t) in VacationWeeks(f) )
+                then 1
+                else 0
+                endif
+            }
+        }
+    }
+    DeclarationSection Cost_Declarations {
+        Parameter UnitTransportCost {
+            IndexDomain: (f,c);
+            Unit: $/TL;
+        }
+        Parameter FixedCostDueToLeaveChange {
+            Unit: $;
+            InitialData: 25000;
+        }
+        Parameter UnitStockCost {
+            IndexDomain: l;
+            Unit: $/hl;
+        }
+        Parameter UnitProductionCost {
+            IndexDomain: f;
+            Unit: $/hl;
+        }
+    }
+    DeclarationSection Mathematical_Program_Declarations {
+        Variable ProductionLineInUse {
+            IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+            Range: binary;
+        }
+        Variable Production {
+            IndexDomain: (f,t);
+            Range: nonnegative;
+            Unit: hl;
+            Definition: sum[ p, PotentialProduction(f,p,t) * ProductionLineInUse(f,p,t) ];
+        }
+        Variable ProductionLineLevelChange {
+            IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+            Range: [0, 1];
+        }
+        Variable Transport {
+            IndexDomain: (f,c,t,s) | UnitTransportCost(f,c);
+            Range: [0, MaximumStock(c)];
+            Unit: TL;
+        }
+        Variable Stock {
+            IndexDomain: (l,t,s);
+            Range: [MinimumStock(l), MaximumStock(l)];
+            Unit: hl;
+            Definition: Stock(l,t-1,s) + Production(l,t) + sum[f, Transport(f,l,t,s) ] - sum[c,Transport(l,c,t,s) ] - Demand(l,t,s);
+        }
+        Variable TotalScenarioCost {
+            IndexDomain: s;
+            Range: free;
+            Unit: $;
+            Definition: {
+                sum[ (f,t,p), FixedCostDueToLeaveChange * ProductionLineLevelChange(f,p,t) ] +
+                sum[ (f,t), UnitProductionCost(f) * Production(f,t) ] +
+                sum[ (l,t), UnitStockCost(l) * Stock(l, t, s) ] +
+                sum[ (f,c,t), UnitTransportCost(f,c) * Transport(f,c,t,s) ]
+            }
+        }
+        Variable TotalCost {
+            Range: free;
+            Unit: $;
+            Definition: sum[ s, ScenarioProbability(s) * TotalScenarioCost(s) ];
+        }
+        Constraint ChangeWhenIncrease {
+            IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+            Definition: ProductionLineLevelChange(f,p,t) >= ProductionLineInUse(f,p,t) - ProductionLineInUse(f,p,t-1);
+        }
+        Constraint ChangeWhenDecrease {
+            IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+            Definition: ProductionLineLevelChange(f,p,t) >= ProductionLineInUse(f,p,t-1) - ProductionLineInUse(f,p,t);
+        }
+        Constraint RestrictTransportCapacity {
+            IndexDomain: (f,t,s);
+            Unit: TL;
+            Definition: sum[ c, Transport(f,c,t,s) ] <= MaximumTransportCapacity(f);
+        }
+        MathematicalProgram LeastCostPlan {
+            Objective: TotalCost;
+            Direction: minimize;
+            Type: MIP;
+        }
+    }
+}

@@ -1,0 +1,71 @@
+## ams_version=1.0
+
+Section Absentee_Overview {
+    DeclarationSection Vacation_Gantt_Chart_Declaration {
+        Set VacationGanntChartBarTypes {
+            Index: v;
+            Definition: data { 'Vacation', 'No Vacation' };
+        }
+        ElementParameter VacationGanttChartStartingWeek {
+            IndexDomain: w;
+            Range: Weeks;
+            Definition: w;
+        }
+        Parameter VacationGanttChartDuration {
+            IndexDomain: (f,w,v);
+        }
+    }
+    DeclarationSection Holiday_Gantt_Chart_Declaration {
+        StringParameter HolidayGanttChartLeftBound;
+        StringParameter HolidayGanttChartRightBound;
+        Set HolidayGanttChartBarTypes {
+            Index: h;
+            Definition: data { 'Official Holiday', 'No Official Holiday' };
+        }
+        ElementParameter HolidayGanttChartStartingDay {
+            IndexDomain: d;
+            Range: Days;
+            Definition: d;
+        }
+        Parameter HolidayGanttChartDuration {
+            IndexDomain: (d,h);
+        }
+    }
+    Procedure InitializeVacationGanttChart {
+        Body: {
+            VacationGanttChartDuration(f,w,'No Vacation') := 1 - VacationGanttChartDuration(f,w, 'Vacation');
+        }
+    }
+    Procedure ToggleVacationGanttChart {
+        Arguments: (f,w);
+        Body: {
+            VacationGanttChartDuration(f,w,v) := 1 - VacationGanttChartDuration(f,w,v);
+        }
+        ElementParameter f {
+            Range: Factories;
+            Property: Input;
+        }
+        ElementParameter w {
+            Range: Weeks;
+            Property: Input;
+        }
+    }
+    Procedure ToggleHolidayGanttChart {
+        Arguments: (d);
+        Body: {
+            HolidayGanttChartDuration(d,h) := 1 - HolidayGanttChartDuration(d,h);
+        }
+        ElementParameter d {
+            Range: Days;
+            Property: Input;
+        }
+    }
+    Procedure InitializeHolidayGanttChart {
+        Body: {
+            HolidayGanttChartLeftBound := BeginDateOfCalendar;
+            HolidayGanttChartRightBound := "2000-08-01";
+            
+            HolidayGanttChartDuration(d, 'No Official Holiday') := 1 - HolidayGanttChartDuration(d, 'Official Holiday');
+        }
+    }
+}

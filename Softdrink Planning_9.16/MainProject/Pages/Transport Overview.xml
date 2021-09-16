@@ -1,0 +1,438 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-09 08:49:47">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>3</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Selection Object">
+		<SelectionType>RadioButtons</SelectionType>
+		<Location top="66" left="186" bottom="114" right="480" />
+		<TabOrder>7</TabOrder>
+		<Font GUID="AA7D0DC3-3147-4E8F-84D6-2D18E628FCC6" Name="1" />
+		<TextShown>ElementName</TextShown>
+		<NumItemLines>3</NumItemLines>
+		<Border Style="InShadow" Width="2" MarginTop="3" MarginRight="3" MarginBottom="3" MarginLeft="3" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ExplicitIdentifier>
+			<Identifier>DisplayedScenario</Identifier>
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Selection Object">
+		<SelectionType>DropDownList</SelectionType>
+		<Location top="120" left="186" bottom="144" right="480" />
+		<TabOrder>4</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<TextShown>ElementName</TextShown>
+		<Border Style="None" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ExplicitIdentifier>
+			<Identifier>DisplayedPeriod</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="Periods">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Network Object">
+		<Location top="150" left="186" bottom="450" right="480" />
+		<TabOrder>1</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<HorizontalScrollbar>true</HorizontalScrollbar>
+		<VerticalScrollbar>true</VerticalScrollbar>
+		<EqualXYScale>false</EqualXYScale>
+		<ScrollControl>NoScrolling</ScrollControl>
+		<VisibleArea>
+			<Left>3.3</Left>
+			<Right>7.3</Right>
+			<Top>53.5</Top>
+			<Bottom>50.7</Bottom>
+		</VisibleArea>
+		<Background>
+			<Background_Image_Source ID="101">"From File"</Background_Image_Source>
+			<Image_File_Name ID="200" LiteralFileName="true">"Bitmaps\Netherlands.bmp"</Image_File_Name>
+			<Left ID="210">3.3</Left>
+			<Right ID="211">7.3</Right>
+			<Top ID="212">53.5</Top>
+			<Bottom ID="213">50.7</Bottom>
+		</Background>
+		<Node>
+			<Identifier>l</Identifier>
+			<XCoordinate>XCoordinate( l )</XCoordinate>
+			<YCoordinate>YCoordinate( l )</YCoordinate>
+			<NumberFormat Width="6" Decimals="2" />
+			<MaximumSize>10</MaximumSize>
+			<TextPosition>Right</TextPosition>
+			<TextShowWhat>ElementName</TextShowWhat>
+			<Color>8C1FFC91-A781-4272-831D-2D86F23592E4 red</Color>
+			<Size>10</Size>
+			<ProcedureUponSelect>SelectLocationInNetwork( l )</ProcedureUponSelect>
+			<Shape>Circle</Shape>
+		</Node>
+		<Arc>
+			<Identifier>Transport( f-&gt;DisplayedFactory, c-&gt;DisplayedCenter, DisplayedPeriod, DisplayedScenario )</Identifier>
+			<NumberFormat Width="6" Decimals="2" />
+			<MaximumSize>8</MaximumSize>
+			<TextPosition>Right</TextPosition>
+			<Size>Transport( f, c, DisplayedPeriod, DisplayedScenario )</Size>
+			<Shape>Straight</Shape>
+			<FirstSegment>Horizontal</FirstSegment>
+			<ClickWhere>EntireArc</ClickWhere>
+		</Arc>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="42" left="750" bottom="66" right="852" />
+		<SourceType>StringParameter</SourceType>
+		<StringParameter>FactoryDescription</StringParameter>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="66" left="492" bottom="126" right="684" />
+		<TabOrder>10</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>Production( DisplayedFactory, t )</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="t">ShortPeriodDescription( t )</ElementText>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="132" left="492" bottom="192" right="684" />
+		<TabOrder>17</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>Stock( DisplayedFactory, t, DisplayedScenario )</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="t">ShortPeriodDescription( t )</ElementText>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="66" left="684" bottom="156" right="834" />
+		<TabOrder>14</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>Transport( DisplayedFactory, c, t, DisplayedScenario )</Identifier>
+			<Index Name="c" />
+			<Index Name="t" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>Transport( DisplayedFactory, c, t, DisplayedScenario )</Identifier>
+			<NumberFormat Width="5" Decimals="1" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Scalar">
+		<Location top="162" left="684" bottom="192" right="834" />
+		<TabOrder>13</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Layout>Text-Value</Layout>
+		<SeparatorSign>=</SeparatorSign>
+		<ExplicitIdentifier>
+			<Identifier>MinimumStock( DisplayedFactory )</Identifier>
+			<Unit Display="PerValue" />
+			<NumberFormat Width="5" Decimals="0" Scientific="IfTooSmallorLarge" Alignment="Center" ShowDefaults="true" />
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>MaximumStock( DisplayedFactory )</Identifier>
+			<Unit Display="PerValue" />
+			<NumberFormat Width="6" Decimals="0" Scientific="IfTooSmallorLarge" Alignment="Center" ShowDefaults="true" />
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>MaximumTransportCapacity( DisplayedFactory )</Identifier>
+			<Unit Display="PerValue" />
+			<NumberFormat Width="5" Decimals="1" Scientific="IfTooSmallorLarge" Alignment="Center" ShowDefaults="true" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Table">
+		<Location top="198" left="492" bottom="252" right="834" />
+		<TabOrder>5</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<RowIndentation>3</RowIndentation>
+		<ExplicitIdentifier>
+			<Identifier>DeteriorationLevel( DisplayedFactory, p )</Identifier>
+			<Permutation>[1,0]</Permutation>
+			<FirstColumn>2</FirstColumn>
+			<NumberFormat Width="5" Decimals="2" Alignment="Center" />
+			<Color>DeteriorationColor( DisplayedFactory, p )</Color>
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>ActualProduction( DisplayedFactory, p, t )</Identifier>
+			<Permutation>[1,2,0]</Permutation>
+			<FirstColumn>1</FirstColumn>
+			<NumberFormat Width="8" Decimals="2" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="294" left="492" bottom="372" right="684" />
+		<TabOrder>16</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>Demand( DisplayedCenter, t, DisplayedScenario )</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="t">ShortPeriodDescription( t )</ElementText>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="378" left="492" bottom="450" right="684" />
+		<TabOrder>15</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>Stock( DisplayedCenter, t, DisplayedScenario )</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="t">ShortPeriodDescription( t )</ElementText>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Scalar">
+		<Location top="414" left="684" bottom="450" right="828" />
+		<TabOrder>11</TabOrder>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Layout>Text-Value</Layout>
+		<SeparatorSign>=</SeparatorSign>
+		<ExplicitIdentifier>
+			<Identifier>MinimumStock( DisplayedCenter )</Identifier>
+			<Unit Display="PerValue" />
+			<NumberFormat Width="5" Decimals="0" Scientific="IfTooSmallorLarge" Alignment="Center" ShowDefaults="true" />
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>MaximumStock( DisplayedCenter )</Identifier>
+			<Unit Display="PerValue" />
+			<NumberFormat Width="6" Decimals="0" Scientific="IfTooSmallorLarge" Alignment="Center" ShowDefaults="true" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="294" left="684" bottom="408" right="828" />
+		<TabOrder>12</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>Transport( f, DisplayedCenter, t, DisplayedScenario )</Identifier>
+			<Index Name="f" />
+			<Index Name="t" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>Transport( f, DisplayedCenter, t, DisplayedScenario )</Identifier>
+			<NumberFormat Width="5" Decimals="1" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="48" left="864" bottom="78" right="930" />
+		<TabOrder>8</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Run Next"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>RollHorizonOnce</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="84" left="864" bottom="114" right="930" />
+		<TabOrder>6</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Run All"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>RollHorizonToEnd</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="120" left="864" bottom="150" right="930" />
+		<TabOrder>2</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Restart"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>MovePlanningIntervalToStartOfCalendar</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="270" left="756" bottom="294" right="864" />
+		<SourceType>StringParameter</SourceType>
+		<StringParameter>CenterDescription</StringParameter>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="42" left="492" bottom="66" right="618" />
+		<StaticText>Factory：</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="270" left="492" bottom="330" right="882" />
+		<StaticText>Distribution Center：</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="36" left="186" bottom="96" right="588" />
+		<StaticText>Scenario and period selection</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="36" left="180" bottom="456" right="486" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="36" left="486" bottom="258" right="840" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="264" left="486" bottom="456" right="840" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<UsedReferences>
+		<Model>
+			<Symbol>Periods</Symbol>
+			<Symbol>Scenarios</Symbol>
+			<Symbol>Stock</Symbol>
+			<Symbol>Transport</Symbol>
+			<Symbol>Production</Symbol>
+			<Symbol>MaximumTransportCapacity</Symbol>
+			<Symbol>MaximumStock</Symbol>
+			<Symbol>MinimumStock</Symbol>
+			<Symbol>Demand</Symbol>
+			<Symbol>DeteriorationLevel</Symbol>
+			<Symbol>XCoordinate</Symbol>
+			<Symbol>YCoordinate</Symbol>
+			<Symbol>RollHorizonOnce</Symbol>
+			<Symbol>RollHorizonToEnd</Symbol>
+			<Symbol>MovePlanningIntervalToStartOfCalendar</Symbol>
+			<Symbol>t</Symbol>
+			<Symbol>p</Symbol>
+			<Symbol>c</Symbol>
+			<Symbol>f</Symbol>
+			<Symbol>l</Symbol>
+			<Symbol>ActualProduction</Symbol>
+			<Symbol>PeriodDescription</Symbol>
+			<Symbol>DeteriorationColor</Symbol>
+			<Symbol>DisplayedScenario</Symbol>
+			<Symbol>DisplayedPeriod</Symbol>
+			<Symbol>DisplayedFactory</Symbol>
+			<Symbol>DisplayedCenter</Symbol>
+			<Symbol>SelectLocationInNetwork</Symbol>
+			<Symbol>FactoryDescription</Symbol>
+			<Symbol>ShortPeriodDescription</Symbol>
+			<Symbol>CenterDescription</Symbol>
+		</Model>
+	</UsedReferences>
+</Page>

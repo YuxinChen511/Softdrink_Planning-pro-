@@ -1,0 +1,37 @@
+## ams_version=1.0
+
+Section Planning_Overview {
+    Procedure UpdatePlanningGanttChart {
+        Arguments: (iw);
+        Body: {
+            PlanningGanttChartDuration(f,p,iw, 'In Use' ) := 1 onlyif (OverallLineUsagePlanning(f,p,iw) and not OverallMaintenancePlanning(f,p,iw));
+            
+            PlanningGanttChartDuration(f,p,iw, 'In Maintenance' ) := 1 onlyif OverallMaintenancePlanning(f,p,iw);
+        }
+        ElementParameter iw {
+            Range: Weeks;
+            Property: Input;
+        }
+    }
+    DeclarationSection Planning_Gantt_Chart_Declaration {
+        Set PlanningGanttChartRows {
+            SubsetOf: (Factories, ProductionLines);
+            Index: r;
+            Definition: {
+                { (f,p) | p in FactoryProductionLines(f) }
+            }
+        }
+        Set PlanningGanttChartBarTypes {
+            Index: b;
+            Definition: data { 'In Use', 'In Maintenance' };
+        }
+        ElementParameter PlanningGanttChartStartingWeek {
+            IndexDomain: w;
+            Range: Weeks;
+            Definition: w;
+        }
+        Parameter PlanningGanttChartDuration {
+            IndexDomain: (r,w,b);
+        }
+    }
+}

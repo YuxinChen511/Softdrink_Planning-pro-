@@ -1,0 +1,49 @@
+## ams_version=1.0
+
+Section Production_Overview {
+    DeclarationSection Product_Overview_Declaration {
+        ElementParameter DeteriorationColor {
+            IndexDomain: (f,p) | p in FactoryProductionLines(f);
+            Range: AllColors;
+            Definition: {
+                if (DeteriorationLevel(f,p) > MaximumDeteriorationLevel(f,p) ) then 'red'
+                else
+                'navy blue'
+                endif
+            }
+        }
+        StringParameter PeriodDescription {
+            IndexDomain: t in Periods;
+            Definition: {
+                if ( t in Periods.past) then
+                	"past"
+                elseif ( t in Periods.beyond) then
+                	"beyond"
+                else
+                	FormatString("%e", WeekInPeriod(t))
+                endif
+            }
+        }
+        Parameter ActualProduction {
+            IndexDomain: (f,p,t in Periods);
+            Unit: hl;
+            Definition: PotentialProduction(f,p,t)*ProductionLineInUse(f,p,t);
+        }
+        Parameter TotalProductionCost {
+            Unit: $;
+            Definition: sum[ (f,t), UnitProductionCost(f) * Production(f,t) ];
+        }
+        Parameter TotalTransportCost {
+            Unit: $;
+            Definition: sum[ (f,c,t,s), ScenarioProbability(s) * UnitTransportCost(f,c) * Transport(f,c,t,s) ];
+        }
+        Parameter TotalStockCost {
+            Unit: $;
+            Definition: sum[ (l,t,s), ScenarioProbability(s) * UnitStockCost(l) * Stock(l,t,s) ];
+        }
+        Parameter TotalModelSwitchCost {
+            Unit: $;
+            Definition: sum[ (f,p,t), FixedCostDueToLeaveChange * ProductionLineLevelChange(f,p,t) ];
+        }
+    }
+}

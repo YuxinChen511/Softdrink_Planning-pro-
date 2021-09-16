@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<UserFonts>
+	<UserFont Name="Main Font" FaceName="Arial" PointSize="80" UUID="00000000-0000-0000-0000-000000000001" />
+	<UserFont Name="Navigation Object Font" FaceName="Bell MT" PointSize="160" Bold="true" UUID="6495471E-0B8E-459C-872A-6E7CB030C34A" InternalID="1" />
+	<UserFont Name="Data Font" FaceName="Corbel" PointSize="80" Bold="true" UUID="9672192F-A067-41B2-8399-32914DF63F09" InternalID="2" />
+	<UserFont Name="Title Font" FaceName="Arial" PointSize="160" UUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" InternalID="3" />
+	<UserFont Name="1" FaceName="Arial" PointSize="60" UUID="AA7D0DC3-3147-4E8F-84D6-2D18E628FCC6" InternalID="4" />
+	<UserFont Name="Little Title Font" FaceName="Arial" PointSize="140" UUID="6E6B5524-8736-47F3-B08B-38188317E6F7" InternalID="5" />
+</UserFonts>

@@ -1,0 +1,9 @@
+## ams_version=1.0
+
+Section Softdrink_Planning_Menubar {
+    Procedure ShowModelSummary {
+        Body: {
+            ShowHelpTopic( "section.3.4", "Tutorial/AIMMS_tutorial_for_professionals.pdf" );
+        }
+    }
+}

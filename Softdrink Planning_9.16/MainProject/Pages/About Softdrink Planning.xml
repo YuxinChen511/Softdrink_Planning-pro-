@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-14 07:19:32" NeedsCompiledModel="false">
+	<PageEditSize Type="Specified">
+		<Size Width="300" Height="300" />
+	</PageEditSize>
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<IsDialogPage>true</IsDialogPage>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<UsedReferences>
+		<Model />
+	</UsedReferences>
+</Page>

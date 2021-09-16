@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-09 03:52:55">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Table">
+		<Location top="60" left="192" bottom="132" right="510" />
+		<TabOrder>3</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<RowIndentation>3</RowIndentation>
+		<ExplicitIdentifier>
+			<Identifier>DeteriorationLevel( f, p )</Identifier>
+			<FirstColumn>2</FirstColumn>
+			<NumberFormat Width="5" Decimals="2" Alignment="Center" />
+			<Color>DeteriorationColor( f, p )</Color>
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>ActualProduction( f, p, t )</Identifier>
+			<FirstColumn>2</FirstColumn>
+			<NumberFormat Width="8" Decimals="2" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>ActualNumberOfDaysInPeriod( t )</Identifier>
+			<FirstColumn>0</FirstColumn>
+			<HeaderText>"Number of working days"</HeaderText>
+			<NumberFormat Width="5" Decimals="0" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Table">
+		<Location top="168" left="192" bottom="258" right="510" />
+		<TabOrder>7</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<RowIndentation>3</RowIndentation>
+		<ExplicitIdentifier>
+			<Identifier>IsVacationPeriod( f, t )</Identifier>
+			<FirstColumn>1</FirstColumn>
+			<NumberFormat Width="4" Decimals="0" Alignment="Center" Binary="true" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="300" left="192" bottom="456" right="510" />
+		<TabOrder>8</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>Production( f, t )</Identifier>
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="60" left="540" bottom="132" right="678" />
+		<TabOrder>6</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>WeekInPeriod( t )</Identifier>
+			<Index Name="t" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>WeekInPeriod( t )</Identifier>
+			<NumberFormat Width="15" Decimals="0" Alignment="Left" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="42" left="864" bottom="72" right="930" />
+		<TabOrder>5</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Run Next"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>RollHorizonOnce</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="78" left="864" bottom="108" right="930" />
+		<TabOrder>4</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Run All"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>RollHorizonToEnd</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Button">
+		<Location top="114" left="864" bottom="144" right="930" />
+		<TabOrder>2</TabOrder>
+		<LeaveOnEnter>false</LeaveOnEnter>
+		<ButtonType>Text</ButtonType>
+		<Title>"Restart"</Title>
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<ActionSequence>
+			<Action Type="Run">
+				<RunWhat>SpecificProcecure</RunWhat>
+				<Procedure>MovePlanningIntervalToStartOfCalendar</Procedure>
+				<AbortOnError>true</AbortOnError>
+			</Action>
+		</ActionSequence>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="60" left="696" bottom="132" right="828" />
+		<TabOrder>13</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>DaysInPeriod( t, days )</Identifier>
+			<Index Name="t" />
+			<Index Name="days" />
+		</Domain>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="168" left="540" bottom="258" right="684" />
+		<TabOrder>12</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>LineInMaintenance( f, p, t )</Identifier>
+			<Index Name="f" />
+			<Index Name="p" />
+			<Index Name="t" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>LineInMaintenance( f, p, t )</Identifier>
+			<NumberFormat Width="3" Decimals="0" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="168" left="696" bottom="258" right="828" />
+		<TabOrder>9</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>ProductionLineLevelChange( f, p, t )</Identifier>
+			<Index Name="f" />
+			<Index Name="p" />
+			<Index Name="t" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>ProductionLineLevelChange( f, p, t )</Identifier>
+			<NumberFormat Width="5" Decimals="2" Alignment="Center" />
+		</ExplicitIdentifier>
+		<ElementText Index="t">PeriodDescription( t )</ElementText>
+	</PageObject>
+	<PageObject Type="Bar Chart">
+		<Location top="300" left="540" bottom="456" right="810" />
+		<TabOrder>10</TabOrder>
+		<Font GUID="9672192F-A067-41B2-8399-32914DF63F09" Name="Data Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Title>true</Title>
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<HorizontalGridLines>true</HorizontalGridLines>
+		<StatusLine>true</StatusLine>
+		<ExplicitIdentifier>
+			<Identifier>TotalProductionCost</Identifier>
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>TotalTransportCost</Identifier>
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>TotalStockCost</Identifier>
+		</ExplicitIdentifier>
+		<ExplicitIdentifier>
+			<Identifier>TotalModelSwitchCost</Identifier>
+		</ExplicitIdentifier>
+		<FillWithColor>true</FillWithColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="36" left="192" bottom="60" right="486" />
+		<StaticText>Production Lines</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="144" left="192" bottom="162" right="510" />
+		<StaticText>Vacation Weeks</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="276" left="192" bottom="300" right="492" />
+		<StaticText>Factory Production</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="36" left="540" bottom="66" right="834" />
+		<StaticText>Horizon-Calendar Mapping</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="144" left="540" bottom="162" right="648" />
+		<StaticText>Maintenance</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="144" left="714" bottom="168" right="822" />
+		<StaticText>Mode Switches</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="276" left="540" bottom="300" right="798" />
+		<StaticText>Total Cost</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="36" left="186" bottom="138" right="516" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="144" left="186" bottom="264" right="516" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="270" left="186" bottom="462" right="516" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="270" left="534" bottom="462" right="816" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="144" left="534" bottom="264" right="840" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="36" left="534" bottom="138" right="840" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+		<LineWidth>2</LineWidth>
+	</PageObject>
+	<UsedReferences>
+		<Model>
+			<Symbol>WeekInPeriod</Symbol>
+			<Symbol>days</Symbol>
+			<Symbol>DaysInPeriod</Symbol>
+			<Symbol>ActualNumberOfDaysInPeriod</Symbol>
+			<Symbol>IsVacationPeriod</Symbol>
+			<Symbol>LineInMaintenance</Symbol>
+			<Symbol>ProductionLineLevelChange</Symbol>
+			<Symbol>Production</Symbol>
+			<Symbol>DeteriorationLevel</Symbol>
+			<Symbol>RollHorizonOnce</Symbol>
+			<Symbol>RollHorizonToEnd</Symbol>
+			<Symbol>MovePlanningIntervalToStartOfCalendar</Symbol>
+			<Symbol>t</Symbol>
+			<Symbol>p</Symbol>
+			<Symbol>f</Symbol>
+			<Symbol>ActualProduction</Symbol>
+			<Symbol>PeriodDescription</Symbol>
+			<Symbol>TotalProductionCost</Symbol>
+			<Symbol>TotalTransportCost</Symbol>
+			<Symbol>TotalStockCost</Symbol>
+			<Symbol>TotalModelSwitchCost</Symbol>
+			<Symbol>DeteriorationColor</Symbol>
+		</Model>
+	</UsedReferences>
+</Page>

@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+<UserMenuTree Version="4000" TimeStamp="2021-09-16 01:59:13">
+	<Menubar Name="Softdrink Planning Menubar" UUID="D2D9E095-49AA-4CAF-A708-644B8E4E0F0B">
+		<Menu Name="&amp;File" UUID="E566DEB8-A382-47A7-B6D6-15D40954A4F2">
+			<Menu Name="Backup" UUID="F5A1B0BF-64A7-4ADF-9C0D-665692D4E901">
+				<MenuItem Name="Create..." UUID="59506158-6A4C-4261-AF18-5BD6E859D01A" BitmapIndex="31">
+					<ActionSequence>
+						<Action Type="MenuCommand">
+							<Command>File-Backup-Data-Create</Command>
+						</Action>
+					</ActionSequence>
+					<Help>
+						<StatusLineText>"Creates a backup file of the current data"</StatusLineText>
+						<Tooltip>"Create Data Backup"</Tooltip>
+					</Help>
+				</MenuItem>
+				<MenuItem Name="Restore..." UUID="4CBDD010-FA75-4FE7-B489-A57ECC43A256" BitmapIndex="31">
+					<ActionSequence>
+						<Action Type="MenuCommand">
+							<Command>File-Backup-Data-Restore</Command>
+						</Action>
+					</ActionSequence>
+					<Help>
+						<StatusLineText>"Restores a previously created data backup"</StatusLineText>
+						<Tooltip>"Restore Data Backup"</Tooltip>
+					</Help>
+				</MenuItem>
+			</Menu>
+			<Separator />
+			<MenuItem Name="Print Set&amp;up..." UUID="45F1FD2A-04C9-4E4D-8A92-E046A48BB559" BitmapIndex="12">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>File-Print Setup</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Opens the Windows Print Setup dialog"</StatusLineText>
+					<Tooltip>"Print Setup"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Print" UUID="78254D02-862E-4FED-99B8-7C0D5D24ACC0" BitmapIndex="11">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>File-Print</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Prints the contents of the active window"</StatusLineText>
+					<Tooltip>"Print"</Tooltip>
+				</Help>
+			</MenuItem>
+			<Separator />
+			<MenuItem Name="E&amp;xit" UUID="1665E133-C2C6-4AF7-B23A-A8C0E02E5B54" BitmapIndex="13">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>File-Exit</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Closes the current project and exits AIMMS"</StatusLineText>
+					<Tooltip>"Exit"</Tooltip>
+				</Help>
+			</MenuItem>
+		</Menu>
+		<Menu Name="&amp;Edit" UUID="9530BF4E-946E-4253-9AF3-6AD9B5E5E67D">
+			<MenuItem Name="Undo &amp;Last" UUID="056AF8C0-A399-4DF8-BB33-76988E7899D2" BitmapIndex="14">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Undo Last</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Undoes the last data change"</StatusLineText>
+					<Tooltip>"Undo Last"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Undo..." UUID="AC497593-BEF3-409F-B000-9E1C81A0CEC1" BitmapIndex="15">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Undo</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Undoes a set of data changes"</StatusLineText>
+					<Tooltip>"Undo"</Tooltip>
+				</Help>
+			</MenuItem>
+			<Separator />
+			<MenuItem Name="Cu&amp;t" UUID="5BBA465F-2CCC-437F-B90A-6741979852EE" ShortcutKey="2350" BitmapIndex="16">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Cut</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Cuts the selected data and puts it onto the clipboard"</StatusLineText>
+					<Tooltip>"Cut"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Copy" UUID="F287412C-25AC-4269-859A-35C86CA258A1" ShortcutKey="579" BitmapIndex="17">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Copy</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Copies the selected data onto the clipboard"</StatusLineText>
+					<Tooltip>"Copy"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Paste" UUID="FC641FA1-5D3C-4149-A47E-E1474B1F4EA8" ShortcutKey="598" BitmapIndex="18">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Paste</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Paste the data from the clipboard into the current object"</StatusLineText>
+					<Tooltip>"Paste"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Delete" UUID="E1331CBC-7826-4D80-B84E-29C6DC86D791" BitmapIndex="19">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Edit-Delete</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Deletes the selected object"</StatusLineText>
+					<Tooltip>"Delete"</Tooltip>
+				</Help>
+			</MenuItem>
+		</Menu>
+		<Menu Name="&amp;Data" UUID="FD236EE2-946F-46BD-A9A9-2DAB7DCDEF95">
+			<Menu Name="Load &amp;Case" UUID="E96CB3FC-C4F7-4818-A082-BA4BD33477B0">
+				<MenuItem Name="as &amp;Active..." UUID="EEBF8AD1-35DF-43E6-B3B8-9C370AFE8ECA" BitmapIndex="21">
+					<ActionSequence>
+						<Action Type="MenuCommand">
+							<Command>Case-Load As Active</Command>
+						</Action>
+					</ActionSequence>
+					<Help>
+						<StatusLineText>"Loads an existing case and makes it the current case"</StatusLineText>
+						<Tooltip>"Load Case"</Tooltip>
+					</Help>
+				</MenuItem>
+				<MenuItem Name="in&amp;to Active..." UUID="1BD33944-4B73-4BFA-A0C3-7D9BE87A875D" BitmapIndex="24">
+					<ActionSequence>
+						<Action Type="MenuCommand">
+							<Command>Case-Load into Active</Command>
+						</Action>
+					</ActionSequence>
+					<Help>
+						<StatusLineText>"Loads the data from an existing case into the current case"</StatusLineText>
+						<Tooltip>"Load Case into Current"</Tooltip>
+					</Help>
+				</MenuItem>
+				<MenuItem Name="&amp;Merging into Active..." UUID="F4D913E8-D24B-4187-B50F-B35CD417FBD4" BitmapIndex="31">
+					<ActionSequence>
+						<Action Type="MenuCommand">
+							<Command>Case-Merging into Active</Command>
+						</Action>
+					</ActionSequence>
+					<Help>
+						<StatusLineText>"Merges the data from an existing case with the the current case"</StatusLineText>
+						<Tooltip>"Merge Case into Current"</Tooltip>
+					</Help>
+				</MenuItem>
+			</Menu>
+			<MenuItem Name="&amp;New Case" UUID="5006945F-12AB-45C9-A416-36070C3B340E" BitmapIndex="20">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Case-New</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Creates a new, empty case and makes it the current case"</StatusLineText>
+					<Tooltip>"New Case"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="&amp;Save Case" UUID="87CD3403-6639-44AD-AF71-1DF932FAA715" BitmapIndex="22">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Case-Save</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Saves all data to the current case"</StatusLineText>
+					<Tooltip>"Save Case"</Tooltip>
+				</Help>
+			</MenuItem>
+			<MenuItem Name="Save Case &amp;as..." UUID="44F1E18C-C153-487A-A50C-87CA61E06314" BitmapIndex="23">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Case-Save As</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>"Saves all data to a new case"</StatusLineText>
+					<Tooltip>"Save Case As"</Tooltip>
+				</Help>
+			</MenuItem>
+			<Separator />
+			<Separator />
+			<MenuItem Name="&amp;Multiple Cases..." UUID="FAEE5263-DD52-4ACA-9258-19F4A1E630F4" BitmapIndex="31">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Data-Multiple Cases</Command>
+					</Action>
+				</ActionSequence>
+				<Help>
+					<StatusLineText>""</StatusLineText>
+					<Tooltip>""</Tooltip>
+				</Help>
+			</MenuItem>
+		</Menu>
+		<Menu Name="&amp;Run" UUID="16FD0261-FB29-43C2-8BCA-A0923AA41012">
+			<MenuItem Name="Run Next" UUID="1C40CEFA-17E1-4120-87E7-3A43338B9EEC">
+				<ActionSequence>
+					<Action Type="Run">
+						<RunWhat>SpecificProcecure</RunWhat>
+						<Procedure>RollHorizonOnce</Procedure>
+						<AbortOnError>true</AbortOnError>
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+			<MenuItem Name="Run All" UUID="3FC26C77-BAB9-40D0-8765-0039E497DE49">
+				<ActionSequence>
+					<Action Type="Run">
+						<RunWhat>SpecificProcecure</RunWhat>
+						<Procedure>RollHorizonToEnd</Procedure>
+						<AbortOnError>true</AbortOnError>
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+			<Separator />
+			<MenuItem Name="Restart" UUID="F3E7E19B-24E9-41B8-A98E-79999CC90E85">
+				<ActionSequence>
+					<Action Type="Run">
+						<RunWhat>SpecificProcecure</RunWhat>
+						<Procedure>MovePlanningIntervalToStartOfCalendar</Procedure>
+						<AbortOnError>true</AbortOnError>
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+		</Menu>
+		<Menu Name="&amp;Overview" UUID="6BDA0251-52D9-486F-A5A6-7EA4F27B7C15">
+			<NavigationMenu Name="Overview Pages" UUID="9E79ABA1-A4C0-44DF-9559-156207ACAE01">
+				<NavigationData>
+					<ReferencePage>Other</ReferencePage>
+					<OtherPage PageGUID="82534477-6A9C-4D99-8BA9-2B7B8A2968A8" Name="Contents" />
+					<NumberOfGenerations>1</NumberOfGenerations>
+				</NavigationData>
+			</NavigationMenu>
+		</Menu>
+		<Menu Name="Help" UUID="C4E37064-8E2A-4821-BA12-22522F995DA7">
+			<MenuItem Name="AIMMS Help" UUID="51CB7BE4-BF3F-45DC-92B6-A39A7A1B9C57">
+				<ActionSequence>
+					<Action Type="MenuCommand">
+						<Command>Help-Contents and Index</Command>
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+			<MenuItem Name="Model Summary" UUID="BE593E6A-EBC6-456A-8C29-2BC99AED511C">
+				<ActionSequence>
+					<Action Type="Run">
+						<RunWhat>SpecificProcecure</RunWhat>
+						<Procedure>ShowModelSummary</Procedure>
+						<AbortOnError>true</AbortOnError>
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+			<MenuItem Name="About" UUID="D3749591-51A1-4D2D-81F8-5E2DC595BEFF">
+				<ActionSequence>
+					<Action Type="LinkedPage">
+						<Page PageGUID="B3152C04-864B-4E4F-ADCF-11DDA068855A" Name="About Softdrink Planning" />
+					</Action>
+				</ActionSequence>
+			</MenuItem>
+		</Menu>
+	</Menubar>
+</UserMenuTree>

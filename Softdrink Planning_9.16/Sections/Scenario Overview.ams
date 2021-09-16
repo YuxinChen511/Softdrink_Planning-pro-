@@ -1,0 +1,27 @@
+## ams_version=1.0
+
+Section Scenario_Overview {
+    DeclarationSection Scenario_Overview_Declarations {
+        Set DisplayedCenters {
+            SubsetOf: Centers;
+        }
+        DatabaseTable DisplayedCenterTable {
+            IndexDomain: (s);
+            DataSource: "Data\\Softdrink Planning.dsn";
+            TableName: "Centers";
+            Mapping: {
+                "Center"   --> c,
+                "Date"     --> w,
+                "Scenario" --> s,
+                "Demand"   --> WeeklyDemand( c, w, s )
+            }
+        }
+    }
+    Procedure UpdateWeeklyDemand {
+        Body: {
+            empty WeeklyDemand;
+            read WeeklyDemand(c,w,DisplayScenario) from table DisplayedCenterTable(DisplayScenario)
+                filtering c in DisplayedCenters;
+        }
+    }
+}

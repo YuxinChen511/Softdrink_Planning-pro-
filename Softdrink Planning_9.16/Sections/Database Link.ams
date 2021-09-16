@@ -1,0 +1,93 @@
+## ams_version=1.0
+
+Section Database_Link {
+    DeclarationSection Database_Declaration {
+        DatabaseTable LocationTable {
+            DataSource: "Data\\Softdrink Planning.dsn";
+            TableName: "Locations";
+            Mapping: {
+                "Location"          --> l,
+                "XCoordinate"       --> XCoordinate( l ),
+                "YCoordinate"       --> YCoordinate( l ),
+                "InitialStockLevel" --> StockAtStartOfCalendar( l ),
+                "MaximumStockLevel" --> MaximumStock( l ),
+                "MinimumStockLevel" --> MinimumStock( l ),
+                "UnitStockCost"     --> UnitStockCost( l )
+            }
+        }
+        Parameter WeeklyDemand {
+            IndexDomain: (c,w,s);
+            Unit: hl;
+        }
+        Parameter TotalWeeklyDemand {
+            IndexDomain: (w,s);
+            Unit: hl;
+        }
+        DatabaseTable FactoryTable {
+            DataSource: "Data\\Softdrink Planning.dsn";
+            TableName: "Factories";
+            Mapping: {
+                "Factory"                  --> f,
+                "UnitProductionCost"       --> UnitProductionCost( f ),
+                "MaximumTransportCapacity" --> MaximumTransportCapacity( f )
+            }
+        }
+        DatabaseTable CenterTable {
+            DataSource: "Data\\Softdrink Planning.dsn";
+            TableName: "Centers";
+            Mapping: {
+                "Center"   --> c,
+                "Date"     --> w,
+                "Scenario" --> s,
+                "Demand"   --> WeeklyDemand( c, w, s )
+            }
+        }
+        DatabaseTable ProductionLineTable {
+            DataSource: "Data\\Softdrink Planning.dsn";
+            TableName: "ProductionLines";
+            Mapping: {
+                "Factory"                --> f,
+                "ProductionLine"         --> p,
+                "InitialUsageCount"      --> DeteriorationLevelAtStartOfCalendar( f, p ),
+                "InitialProductionLevel" --> ProductionLineLevelAtStartOfCalendar( f, p ),
+                "MaximumProductionLevel" --> MaximumProductionLineLevel( f, p ),
+                "MaximumUsageCount"      --> MaximumDeteriorationLevel( f, p )
+            }
+        }
+    }
+    Procedure ReadFromDatabase {
+        Body: {
+            read from table LocationTable;
+            read from table FactoryTable;
+            read from table NumberOfProductionLinesQuery;
+            read from table ProductionLineTable;
+            read from table AllCentersQuery;
+            read from table TotalDemandQuery;
+        }
+    }
+    DatabaseProcedure NumberOfProductionLinesQuery {
+        DataSource: "Data\\Softdrink Planning.dsn";
+        SqlQuery: "SELECT Factory, COUNT(ProductionLine) AS LineCount " + " FROM ProductionLines GROUP BY Factory ";
+        Property: UseResultSet;
+        Mapping: {
+            "Factory" --> f,
+            "LineCount" --> NumberOfProductionLines(f)
+        }
+    }
+    DatabaseProcedure TotalDemandQuery {
+        DataSource: "Data\\Softdrink Planning.dsn";
+        StoredProcedure: "TotalDemand";
+        Property: UseResultSet;
+        Mapping: {
+            "Date"        --> w,
+            "Scenario"    --> s,
+            "TotalDemand" --> TotalWeeklyDemand(w,s)
+        }
+    }
+    DatabaseProcedure AllCentersQuery {
+        DataSource: "Data\\Softdrink Planning.dsn";
+        StoredProcedure: "AllCenters";
+        Property: UseResultSet;
+        Mapping: "Center" --> c;
+    }
+}

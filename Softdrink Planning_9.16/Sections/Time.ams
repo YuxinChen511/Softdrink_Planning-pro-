@@ -1,0 +1,111 @@
+## ams_version=1.0
+
+Section Time {
+    DeclarationSection Period_Declaration {
+        Parameter NumberOfPeriods {
+            Range: {
+                {1..inf}
+            }
+            InitialData: 10;
+        }
+        Parameter NumberOfPeriodsInPlanningInterval {
+            Range: {
+                {1..inf}
+            }
+            InitialData: 8;
+        }
+        Horizon Periods {
+            Index: t;
+            CurrentPeriod: 'period-01';
+            IntervalLength: NumberOfPeriodsInPlanningInterval;
+            Definition: ( 'past' ) + ElementRange( 1, NumberOfPeriods, prefix: "period-" );
+        }
+        Parameter DesiredNumberOfDaysInPeriod {
+            IndexDomain: t;
+            Definition: 7;
+        }
+        Parameter DesiredNumberOfWeeksInPeriod {
+            IndexDomain: t;
+            Definition: 1;
+        }
+        Parameter AcctualNumverOfDaysInPeriod {
+            IndexDomain: t;
+            Unit: day;
+            Comment: "Takes into account the weekends and the official holidays";
+        }
+        ElementParameter FirstPeriodPlanningInterval {
+            Range: Periods;
+            Definition: first(t | t in Periods.planning);
+        }
+    }
+    DeclarationSection Calendar_Declaration {
+        StringParameter EndDateOfCalendar {
+            Definition: "2001-06-30";
+        }
+        StringParameter BeginDateOfCalendar {
+            Definition: "2000-07-01";
+        }
+        Calendar Days {
+            Index: d;
+            Unit: day;
+            BeginDate: BeginDateOfCalendar;
+            EndDate: EndDateOfCalendar;
+            TimeslotFormat: "%d/%m/%c%y";
+        }
+        Set WeekendDays {
+            SubsetOf: Days;
+            Definition: {
+                { d | TimeslotCharacteristic( d, 'weekday') > 5}
+            }
+        }
+        Set OfficialHolidays {
+            SubsetOf: Days;
+            Definition: {
+                { d | HolidayGanttChartDuration(d, 'Official Holiday') }
+            }
+        }
+        Set InactiveDays {
+            SubsetOf: Days;
+            Definition: WeekendDays + OfficialHolidays;
+        }
+        Set Mondays {
+            SubsetOf: Days;
+            Definition: {
+                { d | TimeslotCharacteristic( d, 'weekday') = 1}
+            }
+        }
+        Set DaysInPeriod {
+            IndexDomain: t;
+            SubsetOf: Days;
+        }
+        Calendar Weeks {
+            Index: w;
+            Unit: 7 * day;
+            BeginDate: BeginDateOfCalendar;
+            EndDate: EndDateOfCalendar;
+            TimeslotFormat: "week %sW, %c %y";
+        }
+        Set InactiveWeeks {
+            SubsetOf: Weeks;
+        }
+        ElementParameter WeekInPeriod {
+            IndexDomain: t;
+            Range: Weeks;
+        }
+        ElementParameter DayToWeek {
+            IndexDomain: d;
+            Range: Weeks;
+            Definition: {
+                first ( w | TimeslotCharacteristic(w, 'week') =
+                	TimeslotCharacteristic(d, 'week')
+                	and
+                	TimeslotCHaracteristic(w, 'year') =
+                	Timeslotcharacteristic(d, 'year') )
+            }
+        }
+        ElementParameter LastWeekInClaendar {
+            Range: Weeks;
+            Definition: last(Weeks);
+        }
+    }
+}

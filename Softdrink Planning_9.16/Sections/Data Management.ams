@@ -1,0 +1,86 @@
+## ams_version=1.0
+
+Section Data_Management {
+    Procedure HolidayAndVacationDataSave {
+        Body: {
+            CaseFileSave(
+            	url      :  "Cases\\Vacation and Holidays.data",
+            	contents :  VactionandHolidays);
+        }
+    }
+    DeclarationSection Data_Management_Declaration {
+        Set VactionAndHolidays {
+            SubsetOf: AllIdentifiers;
+            Definition: data { VacationGanttChartDuration, HolidayGanttChartDuration };
+        }
+        ElementParameter CurrentPeriod {
+            Range: Periods;
+        }
+        Parameter TotalCostInCurrentPeriod {
+            Unit: $;
+            Definition: {
+                sum[ s, ScenarioProbability(s) * (
+                sum[ (f,p), FixedCostDueToLeaveChange * ProductionLineLevelChange(f, p, CurrentPeriod) ] +
+                sum[ f, UnitProductionCost(f) * Production(f, CurrentPeriod) ] +
+                sum[ l, UnitStockCost(l) * Stock(l, CurrentPeriod, s) ]+
+                sum[ (f,c), UnitTransportCost(f, c) * Transport(f, c, CurrentPeriod , s) ] ) ]
+            }
+        }
+        Parameter AccumulatedTotalCost {
+            Unit: $;
+        }
+        Set AccumulateTotalCostIdentifiers {
+            SubsetOf: AllIdentifiers;
+            Definition: {
+                {'AccumulatedTotalCost'}
+            }
+        }
+    }
+    Procedure SaveCase {
+        Arguments: (CaseName);
+        Body: {
+            CaseFileSave(
+            	     url : FormatString("Cases\\\%s.data", CaseName),
+            	     contents :  AccumulateTotalCostIdentifiers);
+        }
+        StringParameter CaseName {
+            Property: Input;
+        }
+    }
+    Procedure RunExperiment {
+        Body: {
+            NumberOfPeriodsInPlanningInterval := 4;
+            
+            repeat"outer-loop"
+            
+            	MovePlanningIntervalToStartOfCalendar;
+             	AccumulatedTotalCost := 0;
+             	CurrentPeriod := FirstPeriodPlanningInterval;
+            
+             while ( LastWeekInPlanningInterval < LastWeekInClaendar ) do "inner-loop"
+            
+             	RollHorizonOnce;
+             	AccumulatedTotalCost += TotalCostInCurrentPeriod;
+             	PageRefreshAll;
+             	break "inner-loop" when ( LeastCostPlan.ProgramStatus <> 'Optimal' );
+            
+             endwhile;
+            if ( LeastCostPlan.ProgramStatus <> 'Optimal' ) then
+                    AccumulatedTotalCost := 0;
+               else
+             	for ( t | t > FirstPeriodPlanningInterval ) do
+             		CurrentPeriod := t;
+             		AccumulatedTotalCost += TotalCostInCurrentPeriod;
+             	endfor;
+             endif;
+            
+            	SaveCase(formatstring("Length-\%n", NumberOfPeriodsInPlanningInterval ));
+            
+            	break "outer-loop" when ( NumberOfPeriodsInPlanningInterval = 10 );
+            
+            	NumberOfPeriodsInPlanningInterval+=1;
+            
+            endrepeat;
+        }
+    }
+}

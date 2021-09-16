@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-03 07:17:28" NeedsCompiledModel="false">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Navigation Object">
+		<Location top="108" left="312" bottom="396" right="852" />
+		<Font GUID="6495471E-0B8E-459C-872A-6E7CB030C34A" Name="Navigation Object Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<Display>Button+Text</Display>
+		<Spacing>6</Spacing>
+		<BackgroundColor Transparent="true" />
+		<TextColor>
+			<UserColor GUID="D4F48705-BFDF-4DF8-8E1F-D38EFF981024">default selection</UserColor>
+		</TextColor>
+		<NavigationData>
+			<ReferencePage>ThisPage</ReferencePage>
+			<NumberOfGenerations>1</NumberOfGenerations>
+			<ActionSequence>
+				<Action Type="GotoNavigationPage" />
+			</ActionSequence>
+		</NavigationData>
+	</PageObject>
+	<PageObject Type="Picture">
+		<Location top="30" left="792" bottom="108" right="936" />
+		<FileName LiteralFileName="true">"Bitmaps\AIMMS Logo.bmp"</FileName>
+		<Display>Multiple</Display>
+	</PageObject>
+	<UsedReferences>
+		<Model />
+	</UsedReferences>
+</Page>

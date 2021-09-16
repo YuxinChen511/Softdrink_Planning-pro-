@@ -1,0 +1,180 @@
+## ams_version=1.0
+
+Section Rolling_Horizon_Procedures {
+    DeclarationSection Rolling_Horizon_Declaration {
+        ElementParameter FirstDayInPlanningInterval {
+            Range: Days;
+        }
+        Set WeeksInPlanningInterval {
+            SubsetOf: Weeks;
+            Definition: union[ t, WeekInPeriod(t) ];
+        }
+        ElementParameter FirstWeekInPlanningInterval {
+            Range: Weeks;
+            Definition: DayToWeek(FirstDayInPlanningInterval);
+        }
+        ElementParameter LastWeekInPlanningInterval {
+            Range: Weeks;
+            Definition: last(WeeksInPlanningInterval);
+        }
+        Parameter LenghtDominatesNotActive {
+            IndexDomain: t;
+        }
+        Parameter OverallMaintenancePlanning {
+            IndexDomain: (f,p,w) | p in FactoryProductionLines(f);
+        }
+        Parameter OverallLineUsagePlanning {
+            IndexDomain: (f,p,w) | p in FactoryProductionLines(f);
+        }
+    }
+    Section Single_Step_Procedures {
+        Procedure LinkHorizonToCalendar {
+            Body: {
+                CreateTimeTable(
+                TimeTable : DaysInPeriod,
+                CurrentTimeSlot : FirstDayInPlanningInterval,
+                CurrentPeriod : FirstPeriodPlanningInterval,
+                PeriodLength : DesiredNumberOfDaysInPeriod,
+                LengthDominates : LenghtDominatesNotActive,
+                InactiveTimeSlots : InactiveDays,
+                DelimiterSlots : Mondays );
+                
+                AcctualNumverOfDaysInPeriod(t) := (card(DaysInPeriod(t))) [day];
+                
+                CreateTimeTable(
+                TimeTable : WeekInPeriod,
+                CurrentTimeSlot : FirstWeekInPlanningInterval,
+                CurrentPeriod : FirstPeriodPlanningInterval,
+                PeriodLength : DesiredNumberOfWeeksInPeriod,
+                LengthDominates : LenghtDominatesNotActive,
+                InactiveTimeSlots : InactiveWeeks,
+                DelimiterSlots : Weeks );
+            }
+        }
+        Procedure ReadDeamandDataFromDatabase {
+            Body: {
+                empty WeeklyDemand;
+                read WeeklyDemand(c,w,s) from table CenterTable
+                	filtering w in WeeksInPlanningInterval;
+                Demand(c,t,s) := WeeklyDemand(c,WeekInPeriod(t),s);
+            }
+        }
+        Procedure DetermineMaintenance {
+            Body: {
+                EstimatedMaintenancePeriod(f,p) :=
+                Element( Periods, max( MaximumDeteriorationLevel(f,p) - Floor(DeteriorationLevel(f,p)) +2, 2 ) );
+                
+                LinesInMaintenanceInFirstPeriod(f) :=
+                { p | EstimatedMaintenancePeriod(f,p) = FirstPeriodPlanningInterval };
+                
+                EstimatedMaintenancePeriod( (f,p) | Ord(p,LinesInMaintenanceInFirstPeriod(f)) >= 2 ) +=1;
+                
+                empty LineInMaintenance;
+                LineInMaintenance((f,p,EstimatedMaintenancePeriod(f,p)) | EstimatedMaintenancePeriod(f,p) in Periods.planning ) := 1;
+            }
+            ElementParameter EstimatedMaintenancePeriod {
+                IndexDomain: (f,p);
+                Range: Periods;
+            }
+            Set LinesInMaintenanceInFirstPeriod {
+                IndexDomain: f;
+                SubsetOf: ProductionLines;
+            }
+        }
+        Procedure SolveLeastCostPlan {
+            Body: {
+                solve LeastCostPlan;
+                !halt with "Least cost mathematical program is not optimal. \nCheck "
+                !          + "input data for infeasibilities."
+                !when ( LeastCostPlan.ProgramStatus <> 'Optimal' );
+                !
+            }
+        }
+        Procedure RegisterInOverallPlanning {
+            Arguments: (iw,ip);
+            Body: {
+                OverallMaintenancePlanning(f,p,iw) := LineInMaintenance(f,p,ip);
+                OverallLineUsagePlanning(f,p,iw) := ProductionLineInUse(f,p,ip);
+                
+                UpdatePlanningGanttChart(iw);
+            }
+            ElementParameter iw {
+                Range: Weeks;
+                Property: Input;
+            }
+            ElementParameter ip {
+                Range: Periods;
+                Property: Input;
+            }
+        }
+        Procedure PrepareDataForNextRoll {
+            Body: {
+                FirstDayInPlanningInterval += 7;
+                
+                Stock(l,'past',s) := Stock(l,FirstPeriodPlanningInterval,s);
+                ProductionLineInUse(f,p,'past') := ProductionLineInUse(f,p,FirstPeriodPlanningInterval);
+                
+                DeteriorationLevel(f,p) += 0.75 * ProductionLineInUse(f,p,FirstPeriodPlanningInterval) + 0.25;
+                DeteriorationLevel( (f,p) | LineInMaintenance(f,p,FirstPeriodPlanningInterval) ) := 0;
+            }
+        }
+    }
+    Section Rolling_Procedures {
+        Procedure RollHorizonOnce {
+            Body: {
+                LinkHorizonToCalendar;
+                ReadDeamandDataFromDatabase;
+                DetermineMaintenance;
+                SolveLeastCostPlan;
+                RegisterInOverallPlanning(FirstWeekInPlanningInterval, FirstPeriodPlanningInterval);
+                PrepareDataForNextRoll;
+            }
+        }
+        Procedure RollHorizonToEnd {
+            Body: {
+                !if pro::DelegateToServer() then
+                !	return 1;
+                !endif;
+                
+                while ( LastWeekInPlanningInterval < LastWeekInClaendar ) do
+                	RollHorizonOnce;
+                endwhile;
+                
+                for (t | t > FirstPeriodPlanningInterval) do
+                	RegisterInOverallPlanning(WeekInPeriod(t),t);
+                endfor;
+            }
+        }
+    }
+    Section Initialization_Procedures {
+        Procedure InitializeLengthOfPlanningInterval {
+            Body: {
+                NumberOfPeriods := 10;
+                NumberOfPeriodsInPlanningInterval := 8;
+            }
+        }
+        Procedure MovePlanningIntervalToStartOfCalendar {
+            Body: {
+                empty OverallMaintenancePlanning, OverallLineUsagePlanning;
+                
+                Stock(l,'past',s) := StockAtStartOfCalendar(l);
+                ProductionLineInUse(f,p,'past') := 1 onlyif ProductionLineLevelAtStartOfCalendar(f,p);
+                
+                DeteriorationLevel(f,p) := DeteriorationLevelAtStartOfCalendar(f,p);
+                FirstDayInPlanningInterval := first( Mondays );
+                WeekInPeriod(t) := Element( Weeks, Ord(t) );
+            }
+        }
+        Procedure MainInitialization {
+            Body: {
+                ReadFromDatabase;
+                UnitTransportCost(f,c) := (ExternalUnitTransportCost(f,c)) [$/TL];
+                InitializeLengthOfPlanningInterval;
+                MovePlanningIntervalToStartOfCalendar;
+                empty LenghtDominatesNotActive, InactiveWeeks;
+                InitializeVacationGanttChart;
+                InitializeHolidayGanttChart;
+            }
+        }
+    }
+}

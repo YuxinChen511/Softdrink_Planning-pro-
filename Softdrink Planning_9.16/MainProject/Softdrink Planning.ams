@@ -1,0 +1,1005 @@
+## ams_version=1.0
+
+Model Main_Softdrink_Planning {
+    Section The_Model {
+        Section Quantities_and_Units {
+            Comment: "开发应用程序时，先对数量和单位进行声明，例如本问题中的公升和卡车容量作为单位";
+            DeclarationSection Quantity_Declarations {
+                Quantity SI_Time_Duration {
+                    BaseUnit: day;
+                    Conversions: week->day : #-># * 7;
+                    Comment: "Expresses the value for the duration of periods.";
+                }
+                Quantity Currency {
+                    BaseUnit: $;
+                }
+                Quantity SI_Volume {
+                    BaseUnit: m3;
+                    Conversions: {
+                        hl->m3 : #-># / 10,
+                        TL->m3 : #-># * 12
+                    }
+                    Comment: "Expresses the value of solid content.";
+                }
+            }
+        }
+        Section Time {
+            DeclarationSection Calendar_Declarations {
+                ElementParameter LastWeekInClaendar {
+                    Range: Weeks;
+                    Definition: last(Weeks);
+                }
+                ElementParameter DayToWeek {
+                    IndexDomain: d;
+                    Range: Weeks;
+                    Definition: {
+                        first(w | TimeslotCharacteristic(w,'week')=
+                        	TimeslotCharacteristic(d,'week')
+                        	and
+                        	TimeslotCharacteristic(w,'year')=
+                        	TimeslotCharacteristic(d,'year'))
+                    }
+                }
+                StringParameter EndDateOfCalendar {
+                    Definition: "2001-06-30";
+                }
+                StringParameter BeginDateOfCalendar {
+                    Definition: "2000-07-01";
+                }
+                Calendar Weeks {
+                    Index: w;
+                    Unit: 7 * day;
+                    BeginDate: BeginDateOfCalendar;
+                    EndDate: EndDateOfCalendar;
+                    TimeslotFormat: "week %sW, %c %y";
+                }
+                ElementParameter WeekInPeriod {
+                    IndexDomain: t;
+                    Range: Weeks;
+                }
+                Set InactiveWeeks {
+                    SubsetOf: Weeks;
+                }
+                Calendar days {
+                    Index: d;
+                    Unit: day;
+                    BeginDate: BeginDateOfCalendar;
+                    EndDate: EndDateOfCalendar;
+                    TimeslotFormat: "%d/%m/%c%y";
+                }
+                Set DaysInPeriod {
+                    IndexDomain: t;
+                    SubsetOf: days;
+                }
+                Set Mondays {
+                    SubsetOf: days;
+                    Definition: {
+                        {d | TimeslotCharacteristic(d,'weekday')=1}
+                    }
+                }
+                Set InactiveDays {
+                    SubsetOf: days;
+                    Definition: {
+                        WeekendDays + OfficialHolidays;
+                    }
+                }
+                Set OfficialHolidays {
+                    SubsetOf: days;
+                    Definition: {
+                        { d | HolidayGanttChartDuration(d, 'Official Holiday') };
+                    }
+                }
+                Set WeekendDays {
+                    SubsetOf: days;
+                    Definition: {
+                        {d | TimeslotCharacteristic(d,'weekday')>5}
+                    }
+                    Comment: "预定义的函数TimeslotCharacteristic确定一个数值，该数值表示一个时点在一周中的日期、一年中的日期等。";
+                }
+            }
+            DeclarationSection Period_Declarations {
+                Parameter NumberOfPeriods {
+                    Range: {
+                        {1..inf}
+                    }
+                    InitialData: 10;
+                }
+                Parameter NumberOfPeriodsInPlanningInterval {
+                    Range: {
+                        {1..inf}
+                    }
+                    InitialData: 8;
+                }
+                Horizon Periods {
+                    Index: t;
+                    CurrentPeriod: 'period-01';
+                    IntervalLength: NumberOfPeriodsInPlanningInterval;
+                    Definition: ('past')+ElementRange(1,NumberOfPeriods,prefix:"period-");
+                    Comment: "ElementRange：从某个数值开始到某个数值，前缀是period-";
+                }
+                Parameter ActualNumberOfDaysInPeriod {
+                    IndexDomain: t;
+                    Unit: day;
+                    Comment: {
+                        "takes into account the weekends and the official holidays
+                        理想天数在考虑到假期和周末后的实际工作天数"
+                    }
+                }
+                Parameter DesiredNumberOfDaysInPeriod {
+                    IndexDomain: t;
+                    Definition: 7;
+                    Comment: "周理想天数";
+                }
+                Parameter DesiredNumberOfWeeksInPeriod {
+                    IndexDomain: t;
+                    Definition: 1;
+                    Comment: "理想周数";
+                }
+                ElementParameter FirstPeriodInPlanningInterval {
+                    Range: Periods;
+                    Definition: first(t|t in Periods.planning);
+                }
+            }
+        }
+        Section Production_and_Maintenance_Model {
+            DeclarationSection Scenario_Declarations {
+                Parameter ScenarioPorobability {
+                    IndexDomain: s;
+                    Definition: data { pessimistic:0.25, expected:0.50,optimistic:0.25};
+                }
+                Set Scenarios {
+                    Index: s;
+                    Definition: data { pessimistic,expected,optimistic };
+                }
+            }
+            DeclarationSection Maintenance_and_Vacation_Declarations {
+                Parameter IsVacationPeriod {
+                    IndexDomain: (f,t);
+                    Range: binary;
+                    Definition: {
+                        if (WeekInPeriod(t) in VacationWeeks(f))
+                        then 1
+                        else 0
+                        endif
+                    }
+                }
+                Parameter DropDueToVacation {
+                    InitialData: 0.4;
+                }
+                Set VacationWeeks {
+                    IndexDomain: f;
+                    SubsetOf: Weeks;
+                    Definition: {
+                        {w|VacationGanttChartDuration(f,w,'Vacation')}
+                    }
+                    Comment: "w | VacationGanttChartDuration(f,w,’Vacation’) }";
+                }
+                Parameter LineInMaintenance {
+                    IndexDomain: (f,p,t);
+                    Range: binary;
+                    Comment: "每个工厂每个生产线在某个时期有没有在维修";
+                }
+            }
+            DeclarationSection Cost_Declarations {
+                Parameter UnitProductionCost {
+                    IndexDomain: f;
+                    Unit: $/hl;
+                }
+                Parameter UnitStockCost {
+                    IndexDomain: l;
+                    Unit: $/hl;
+                }
+                Parameter FixedCostDueToLeaveChange {
+                    Unit: $;
+                    InitialData: 25000;
+                }
+                Parameter UnitTransportCost {
+                    IndexDomain: (f,c);
+                    Unit: $/TL;
+                }
+            }
+            DeclarationSection Mathematical_Program_Declarations {
+                MathematicalProgram LeastCostPlan {
+                    Objective: TotalCost;
+                    Direction: minimize;
+                    Constraints: AllConstraints;
+                    Variables: AllVariables;
+                    Type: MIP;
+                }
+                Constraint RestrictTransportCapacity {
+                    IndexDomain: (f,t,s);
+                    Unit: TL;
+                    Definition: sum[c,Transport(f,c,t,s)] <= MaximumTransportCapacity(f);
+                }
+                Constraint ChangeWhenDecrease {
+                    IndexDomain: (f,p,t)|p in FactoryProductionLines(f);
+                    Definition: {
+                        ProductionLineLevelChange(f,p,t)>=
+                        ProductionLineInUse(f,p,t-1)-ProductionLineInUse(f,p,t)
+                    }
+                }
+                Constraint ChangeWhenIncrease {
+                    IndexDomain: (f,p,t)|p in FactoryProductionLines(f);
+                    Definition: {
+                        ProductionLineLevelChange(f,p,t)>=
+                        ProductionLineInUse(f,p,t)-ProductionLineInUse(f,p,t-1)
+                    }
+                }
+                Variable TotalScenarioCost {
+                    IndexDomain: s;
+                    Range: free;
+                    Unit: $;
+                    Definition: {
+                        sum[(f,p,t),FixedCostDueToLeaveChange*ProductionLineLevelChange(f,p,t)]+
+                        sum[(f,t),UnitProductionCost(f)*Production(f,t)]+
+                        sum[(l,t),UnitStockCost(l)*Stock(l,t,s)]+
+                        sum[(f,c,t),UnitTransportCost(f,c)*Transport(f,c,t,s)]
+                    }
+                }
+                Variable Stock {
+                    IndexDomain: (l,t,s);
+                    Range: [MinimumStock(l), MaximumStock(l)];
+                    Unit: hl;
+                    Definition: {
+                        Stock(l,t-1,s) + Production(l,t) + 
+                        	sum[f,Transport(f,l,t,s)]-
+                        	sum[c,Transport(l,c,t,s)]-
+                        	Demand(l,t,s)
+                    }
+                }
+                Variable Transport {
+                    IndexDomain: (f,c,t,s) | UnitTransportCost(f,c);
+                    Range: [0, MaximumStock(c)];
+                    Unit: TL;
+                }
+                Variable TotalCost {
+                    Range: free;
+                    Unit: $;
+                    Definition: sum[s,TotalScenarioCost(s)*ScenarioPorobability(s)];
+                }
+                Variable ProductionLineLevelChange {
+                    IndexDomain: (f,p,t)|p in FactoryProductionLines(f);
+                    Range: [0, 1];
+                    Comment: "模式切换（惩罚项）";
+                }
+                Variable Production {
+                    IndexDomain: (f,t);
+                    Range: nonnegative;
+                    Unit: hl;
+                    Definition: {
+                        sum[p,PotentialProduction(f,p,t)*
+                        	ProductionLineInUse(f,p,t)]
+                    }
+                }
+                Variable ProductionLineInUse {
+                    IndexDomain: (f,p,t)|p in FactoryProductionLines(f);
+                    Range: binary;
+                }
+            }
+            DeclarationSection Supply_and_Demand_Declarations {
+                Parameter MaximumTransportCapacity {
+                    IndexDomain: f;
+                    Unit: TL;
+                }
+                Parameter StockAsStartOfCalendar {
+                    IndexDomain: l;
+                    Unit: hl;
+                }
+                Parameter MaximumStock {
+                    IndexDomain: l;
+                    Unit: hl;
+                }
+                Parameter MinimumStock {
+                    IndexDomain: l;
+                    Unit: hl;
+                }
+                Parameter Demand {
+                    IndexDomain: (c,t,s);
+                    Unit: hl;
+                }
+            }
+            DeclarationSection Production_Declarations {
+                Parameter PotentialProduction {
+                    IndexDomain: (f,p,t) | p in FactoryProductionLines(f);
+                    Unit: hl;
+                    Definition: {
+                        ActualNumberOfDaysInPeriod(t)*
+                        (1-LineInMaintenance(f,p,t))*
+                        (1-DropDueToVacation*IsVacationPeriod(f,t))*
+                        MaximumProductionLineLevel(f,p)
+                    }
+                }
+                Parameter MaximumProductionLineLevel {
+                    IndexDomain: (f,p)|p in FactoryProductionLines(f);
+                    Unit: hl/day;
+                }
+                Parameter ProductionLineLevelAtStartOfCalendar {
+                    IndexDomain: (f,p)|p in FactoryProductionLines(f);
+                    Unit: hl/day;
+                }
+                Parameter MaximumDeteriorationLevel {
+                    IndexDomain: (f,p) | p in FactoryProductionLines(f);
+                }
+                Parameter DeteriorationLevelAtSrartOfCalendar {
+                    IndexDomain: (f,p)|p in FactoryProductionLines(f);
+                }
+                Parameter DeteriorationLevel {
+                    IndexDomain: (f,p) | p in FactoryProductionLines(f);
+                    Comment: {
+                        "恶化水平
+                        对于每个工厂的生产线的组合，自从上次生产线维修所经过的时间"
+                    }
+                }
+                Set FactoryProductionLines {
+                    IndexDomain: f;
+                    SubsetOf: ProductionLines;
+                    Definition: {
+                        {p | Ord(p) <= NumberOfProductionLines(f)}
+                    }
+                }
+                Parameter NumberOfProductionLines {
+                    IndexDomain: f;
+                }
+                Set ProductionLines {
+                    Index: p;
+                    Definition: data{line-01..line-04};
+                }
+            }
+            DeclarationSection Location_Declarations {
+                Set Centers {
+                    SubsetOf: Location;
+                    Index: c;
+                }
+                Set Factories {
+                    SubsetOf: Location;
+                    Index: f;
+                }
+                Set Location {
+                    Index: l;
+                }
+                Parameter XCoordinate {
+                    IndexDomain: l;
+                }
+                Parameter YCoordinate {
+                    IndexDomain: l;
+                }
+            }
+        }
+        Section Database_link {
+            DeclarationSection Database_Declarations {
+                DatabaseTable LocationTable {
+                    DataSource: "Data\\Softdrink Planning.dsn";
+                    TableName: "Locations";
+                    Mapping: {
+                        "Location"          -->l,
+                        "XCoordinate"       -->XCoordinate( l ),
+                        "YCoordinate"       -->YCoordinate( l ),
+                        "InitialStockLevel" -->StockAsStartOfCalendar( l ),
+                        "MinimumStockLevel" -->MinimumStock( l ),
+                        "MaximumStockLevel" -->MaximumStock( l ),
+                        "UnitStockCost"     -->UnitStockCost( l )
+                    }
+                }
+                Parameter TotalWeeklyDemand {
+                    IndexDomain: (w,s);
+                    Unit: hl;
+                }
+                Parameter WeeklyDemand {
+                    IndexDomain: (c,w,s);
+                    Unit: hl;
+                }
+                DatabaseTable ProductionLineTable {
+                    DataSource: "Data\\Softdrink Planning.dsn";
+                    TableName: "ProductionLines";
+                    Mapping: {
+                        "Factory"                -->f,
+                        "ProductionLine"         -->p,
+                        "InitialUsageCount"      -->DeteriorationLevelAtSrartOfCalendar( f, p ),
+                        "InitialProductionLevel" -->ProductionLineLevelAtStartOfCalendar( f, p ),
+                        "MaximumProductionLevel" -->MaximumProductionLineLevel( f, p ),
+                        "MaximumUsageCount"      -->MaximumDeteriorationLevel( f, p )
+                    }
+                }
+                DatabaseTable CenterTable {
+                    DataSource: "Data\\Softdrink Planning.dsn";
+                    TableName: "Centers";
+                    Mapping: {
+                        "Center"   -->c,
+                        "Demand"   -->WeeklyDemand( c, w, s ),
+                        "Date"     -->w,
+                        "Scenario" -->s
+                    }
+                }
+                DatabaseTable FactoryTable {
+                    DataSource: "Data\\Softdrink Planning.dsn";
+                    TableName: "Factories";
+                    Mapping: {
+                        "Factory"                  -->f,
+                        "UnitProductionCost"       -->UnitProductionCost( f ),
+                        "MaximumTransportCapacity" -->MaximumTransportCapacity( f )
+                    }
+                }
+            }
+            Procedure ReadFromDatabase {
+                Body: {
+                    read from table LocationTable;
+                    read from table FactoryTable;
+                    read c from table CenterTable;
+                    read from table NumberOfProductionLinesQuery;
+                    read from table ProductionLineTable;
+                    read from table TotalDemandQuery;
+                }
+            }
+            DatabaseProcedure NumberOfProductionLinesQuery {
+                DataSource: "Data\\Softdrink Planning.dsn";
+                SqlQuery: {
+                    "SELECT Factory,COUNT(ProductionLine) AS LineCount"+
+                    " FROM ProductionLines GROUP BY Factory"
+                }
+                Property: UseResultSet;
+                Mapping: {
+                    "Factory" --> f,
+                    "LineCount" --> NumberOfProductionLines(f)
+                }
+                Comment: "访问尚未存储在数据库表中的数据";
+            }
+            DatabaseProcedure TotalDemandQuery {
+                DataSource: "Data\\Softdrink Planning.dsn";
+                StoredProcedure: "TotalDemand";
+                Property: UseResultSet;
+                Mapping: {
+                    "Date"        --> w,
+                    "Scenario"    --> s,
+                    "TotalDemand" --> TotalWeeklyDemand(w,s)
+                }
+            }
+            DatabaseProcedure AllCentersQuery {
+                DataSource: "Data\\Softdrink Planning.dsn";
+                StoredProcedure: "AllCenters";
+                Property: UseResultSet;
+                Mapping: "Center" --> c;
+            }
+        }
+        Section DLL_Link {
+            ExternalFunction ExternalUnitTransportCost {
+                Arguments: (factory,center);
+                DllName: "DLL\\External Routines.dll";
+                ReturnType: double;
+                BodyCall: {
+                    DLLUnitTransportCost(
+                      scalar string : factory,
+                      scalar string : center
+                    )
+                }
+                Comment: "计算从某工厂到某分发中心的单位运输成本";
+                ElementParameter factory {
+                    Range: Factories;
+                    Property: Input;
+                }
+                ElementParameter center {
+                    Range: Centers;
+                    Property: Input;
+                }
+            }
+        }
+        Section Rolling_Horizon_Procedures {
+            DeclarationSection Rolling_Horizon_Declaration {
+                Parameter OverallMaintenancePlanning {
+                    IndexDomain: (f,p,w)|p in FactoryProductionLines(f);
+                }
+                Parameter OverallLineUsagePlanning {
+                    IndexDomain: (f,p,w)|p in FactoryProductionLines(f);
+                }
+                ElementParameter FirstDayInPlanningInterval {
+                    Range: days;
+                }
+                Set WeeksInPlanningInterval {
+                    SubsetOf: Weeks;
+                    Definition: {
+                        union[t,WeekInPeriod(t)];
+                    }
+                    Comment: "并集";
+                }
+                ElementParameter FirstWeekInPlanningInterval {
+                    Range: Weeks;
+                    Definition: DayToWeek(FirstDayInPlanningInterval);
+                }
+                ElementParameter LastWeekInPlanningInterval {
+                    Range: Weeks;
+                    Definition: last(WeeksInPlanningInterval);
+                }
+                Parameter LengthDominatesNotActive {
+                    IndexDomain: t;
+                }
+            }
+            Section Single_Step_Procedures {
+                Procedure LinkHorizonToCalendar {
+                    Body: {
+                        CreateTimeTable(
+                        	TimeTable:DaysInPeriod,
+                        	CurrentTimeSlot:FirstDayInPlanningInterval,
+                        	CurrentPeriod:FirstPeriodInPlanningInterval,
+                        	PeriodLength:DesiredNumberOfDaysInPeriod,
+                        	LengthDominates:LengthDominatesNotActive,
+                        	InactiveTimeSlots:InactiveDays,
+                        	DelimiterSlots:Mondays
+                        );
+                        
+                        ActualNumberOfDaysInPeriod(t):=(card(DaysInPeriod(t)))[day];
+                        
+                        CreateTimeTable(
+                        	TimeTable:WeekInPeriod,
+                        	CurrentTimeSlot:FirstWeekInPlanningInterval,
+                        	CurrentPeriod:FirstPeriodInPlanningInterval,
+                        	PeriodLength:DesiredNumberOfWeeksInPeriod,
+                        	LengthDominates:LengthDominatesNotActive,
+                        	InactiveTimeSlots:InactiveWeeks,
+                        	DelimiterSlots:Weeks
+                        );
+                    }
+                    Comment: {
+                        "LengthDominates:指示是否达到指定的PeriodLength将主导视界中每个周期的任何分隔符槽的存在。  
+                        card():返回这个set的number  [day]赋予无单位的表达式card（xxxx）一个单位
+                        调用CreateTimeTable时，变量前面是变量名
+                        DaysInPeriod:排除非工作时间的一周工作日"
+                    }
+                }
+                Procedure ReadDemandDataFromDatabase {
+                    Body: {
+                        empty WeeklyDemand;
+                        read WeeklyDemand(c,w,s) from table CenterTable
+                        	filtering w in WeeksInPlanningInterval;
+                        Demand(c,t,s):=WeeklyDemand(c,WeekInPeriod(t),s);
+                    }
+                    Comment: "因为是一个周期一个周期来的，所以需要先清空和旧的规划间隔相关的每周需求数据";
+                }
+                Procedure DetermineMaintenance {
+                    Body: {
+                        EstimatedMaintenancePeriod(f,p):=
+                        	Element(Periods,max(MaximumDeteriorationLevel(f,p)-
+                        			Floor(DeteriorationLevel(f,p))+2,2));
+                        
+                        LinesInMaintenanceInFirstPeriod(f):=
+                        	{p|EstimatedMaintenancePeriod(f,p)=FirstPeriodInPlanningInterval};
+                        
+                        EstimatedMaintenancePeriod((f,p)|
+                        	Ord(p,LinesInMaintenanceInFirstPeriod(f))>=2)+=1;
+                        
+                        empty LineInMaintenance;
+                        LineInMaintenance((f,p,EstimatedMaintenancePeriod(f,p))|
+                        	EstimatedMaintenancePeriod(f,p) in Periods.planning):=1;
+                    }
+                    Comment: {
+                        "Floor():x最近的整数，<=x
+                        Element(set,n):从set中取出第n个
+                        EstimatedMaintenancePeriod:f工厂p流水线的维修时期"
+                    }
+                    ElementParameter EstimatedMaintenancePeriod {
+                        IndexDomain: (f,p);
+                        Range: Periods;
+                    }
+                    Set LinesInMaintenanceInFirstPeriod {
+                        IndexDomain: f;
+                        SubsetOf: ProductionLines;
+                    }
+                }
+                Procedure SolveLeastCostPlan {
+                    Body: {
+                        solve LeastCostPlan;
+                        !halt with "Least cost mathematical program is not optimal.\nCheck"
+                        !	+ "input data for infeasibilities."
+                        !	when (LeastCostPlan.ProgramStatus <> 'Optimal');
+                        !
+                    }
+                }
+                Procedure RegisterInOverallPlanning {
+                    Arguments: (iw,ip);
+                    Body: {
+                        OverallMaintenancePlanning(f,p,iw):=LineInMaintenance(f,p,ip);
+                        OverallLineUsagePlanning(f,p,iw):=ProductionLineInUse(f,p,ip);
+                        
+                        UpdatePlanningGanttChart(iw);
+                    }
+                    ElementParameter iw {
+                        Range: Weeks;
+                        Property: Input;
+                    }
+                    ElementParameter ip {
+                        Range: Periods;
+                        Property: Input;
+                    }
+                }
+                Procedure PrepareDataForNextRoll {
+                    Body: {
+                        FirstDayInPlanningInterval+=7;
+                        Stock(l,'past',s):=
+                        	Stock(l,FirstPeriodInPlanningInterval,s);
+                        ProductionLineInUse(f,p,'past'):=
+                        	ProductionLineInUse(f,p,FirstPeriodInPlanningInterval);
+                        
+                        DeteriorationLevel(f,p)+=
+                        	0.75*ProductionLineInUse(f,p,FirstPeriodInPlanningInterval)+0.25;
+                        DeteriorationLevel((f,p)|
+                        	LineInMaintenance(f,p,FirstPeriodInPlanningInterval)):=0;
+                    }
+                }
+            }
+            Section Rolling_Procedures {
+                Procedure RollHorizonOnce {
+                    Body: {
+                        LinkHorizonToCalendar;
+                        ReadDemandDatafromDatabase;
+                        DetermineMaintenance;
+                        SolveLeastCostPlan;
+                        RegisterInOverallPlanning(FirstWeekInPlanningInterval,FirstPeriodInPlanningInterval);
+                        PrepareDataForNextRoll;
+                    }
+                }
+                Procedure RollHorizonToEnd {
+                    Body: {
+                        while(LastWeekInPlanningInterval < LastWeekInClaendar) do
+                        	RollHorizonOnce;
+                        endwhile;
+                        
+                        for (t|t>FirstPeriodInPlanningInterval) do
+                        	RegisterInOverallPlanning(WeekInPeriod(t),t);
+                        endfor;
+                    }
+                }
+            }
+            Section Initialization_Procedures {
+                Procedure MainInitialization {
+                    Body: {
+                        ReadFromDatabase;
+                        UnitTransportCost(f,c) := (ExternalUnitTransportCost(f,c)) [$/TL];
+                        InitializeLengthOfPlanningInterval;
+                        MovePlanningIntervalToStartOfCalendar;
+                        empty LengthDominatesNotActive, InactiveWeeks;
+                        InitializeVacationGanttChart;
+                        InitializeHolidayGanttChart;
+                    }
+                    Comment: "Add initialization statements here that do NOT require any library being initialized already.";
+                }
+                Procedure InitializeLengthOfPlanningInterval {
+                    Body: {
+                        NumberOfPeriods:=10;
+                        NumberOfPeriodsInPlanningInterval:=8;
+                    }
+                }
+                Procedure MovePlanningIntervalToStartOfCalendar {
+                    Body: {
+                        empty OverallMaintenancePlanning, OverallLineUsagePlanning;
+                        
+                        Stock(l,'past',s):=StockAsStartOfCalendar(l);
+                        ProductionLineInUse(f,p,'past'):=1 onlyif ProductionLineLevelAtStartOfCalendar(f,p);
+                        
+                        DeteriorationLevel(f,p):=DeteriorationLevelAtSrartOfCalendar(f,p);
+                        FirstDayInPlanningInterval:=first(Mondays);
+                        WeekInPeriod(t):=Element(Weeks,Ord(t));
+                    }
+                    Comment: "清空任何已存的总体维护和生产线使用规划，然后把日历开端的所有初始值赋给适合的变量和参数。任何时候都可以调用这个程序，导致任何激活的周期滚动程序在日历开端启动";
+                }
+            }
+        }
+    }
+    Section The_User_Interface {
+        Section Production_Overview {
+            ElementParameter DeteriorationColor {
+                IndexDomain: (f,p)|p in FactoryProductionLines(f);
+                Range: AllColors;
+                Definition: {
+                    if (DeteriorationLevel(f,p)>MaximumDeteriorationLevel(f,p)) then
+                    	'red'
+                    else
+                    	'navy blue'
+                    endif
+                }
+            }
+            Parameter TotalModelSwitchCost {
+                Unit: $;
+                Definition: sum[(f,p,t),FixedCostDueToLeaveChange*ProductionLineLevelChange(f,p,t)];
+            }
+            Parameter TotalStockCost {
+                Unit: $;
+                Definition: sum[(l,t,s),ScenarioPorobability(s)*UnitStockCost(l)*Stock(l,t,s)];
+            }
+            Parameter TotalProductionCost {
+                Unit: $;
+                Definition: sum[(f,t),UnitProductionCost(f)*Production(f,t)];
+            }
+            Parameter TotalTransportCost {
+                Unit: $;
+                Definition: {
+                    sum[(f,c,t,s),ScenarioPorobability(s)*UnitTransportCost(f,c)
+                    		*Transport(f,c,t,s)]
+                }
+            }
+            StringParameter PeriodDescription {
+                IndexDomain: t in Periods;
+                Definition: {
+                    if (t in Periods.past) then
+                    	"past"
+                    elseif (t in Periods.beyond) then
+                    	"beyond"
+                    else
+                    	FormatString("%e",WeekInPeriod(t))
+                    endif
+                }
+            }
+            Parameter ActualProduction {
+                IndexDomain: (f,p,t);
+                Unit: hl;
+                Definition: PotentialProduction(f,p,t)*ProductionLineInUse(f,p,t);
+            }
+        }
+        Section Transport_Overview {
+            Procedure SelectLocationInNetwork {
+                Arguments: (SelectedLocation);
+                Body: {
+                    if (SelectedLocation in Factories)
+                    	then DisplayedFactory := SelectedLocation;
+                    	else DisplayedCenter := SelectedLocation;
+                    endif;
+                }
+                ElementParameter SelectedLocation {
+                    Range: Location;
+                    Property: Input;
+                }
+            }
+            DeclarationSection Transport_Overview_Declarations {
+                StringParameter CenterDescription {
+                    Definition: FormatString("%e",DisplayedCenter);
+                }
+                StringParameter ShortPeriodDescription {
+                    IndexDomain: t;
+                    Definition: {
+                        if (WeekInPeriod(t))
+                        	then FormatString("%n",TimeslotCharacteristic(WeekInPeriod(t),'week'))
+                        	else ""
+                        endif
+                    }
+                    Comment: "返回这个period是第几周";
+                }
+                StringParameter FactoryDescription {
+                    Definition: FormatString("%e",DisplayedFactory);
+                }
+                ElementParameter DisplayedCenter {
+                    Range: Centers;
+                }
+                ElementParameter DisplayedFactory {
+                    Range: Factories;
+                }
+                ElementParameter DisplayedPeriod {
+                    Range: Periods;
+                }
+                ElementParameter DisplayedScenario {
+                    Range: Scenarios;
+                }
+            }
+        }
+        Section Absentee_Overview {
+            Procedure InitializeHolidayGanttChart {
+                Body: {
+                    HolidayGanttChartLeftBound := BeginDateOfCalendar;
+                    HolidayGanttChartRightBound := "2000-08-01";
+                    
+                    HolidayGanttChartDuration(d,'No Official Holiday'):=
+                    	1-HolidayGanttChartDuration(d,'Official Holiday');
+                }
+            }
+            Procedure ToggleHolidayGanttChar {
+                Arguments: (d);
+                Body: {
+                    HolidayGanttChartDuration(d,h):=
+                    	1-HolidayGanttChartDuration(d,h);
+                }
+                ElementParameter d {
+                    Range: days;
+                    Property: Input;
+                }
+            }
+            DeclarationSection Holiday_Gantt_Chart {
+                StringParameter HolidayGanttChartRightBound;
+                StringParameter HolidayGanttChartLeftBound;
+                Parameter HolidayGanttChartDuration {
+                    IndexDomain: (d,h);
+                }
+                ElementParameter HolidayGanttCharStartingDay {
+                    IndexDomain: d;
+                    Range: days;
+                    Definition: d;
+                }
+                Set HolidayGanttCharBarTypes {
+                    Index: h;
+                    Definition: data{'Official Holiday','No Official Holiday'};
+                }
+            }
+            Procedure ToggleVacationGanttChart {
+                Arguments: (f,w);
+                Body: {
+                    VacationGanttChartDuration(f,w,v):=
+                    	1-VacationGanttChartDuration(f,w,v);
+                }
+                ElementParameter f {
+                    Range: Factories;
+                    Property: Input;
+                }
+                ElementParameter w {
+                    Range: Weeks;
+                    Property: Input;
+                }
+            }
+            Procedure InitializeVacationGanttChart {
+                Body: {
+                    VacationGanttChartDuration(f,w,'No Vacation'):=
+                    	1-VacationGanttChartDuration(f,w,'Vacation');
+                }
+            }
+            DeclarationSection Vacation_Gantt_Chart_Declarations {
+                Set VacationGanttChartBarTypes {
+                    Index: v;
+                    Definition: data{'Vacation','No Vacation'};
+                }
+                ElementParameter VacationGanttChartStartingWeek {
+                    IndexDomain: w;
+                    Range: Weeks;
+                    Definition: w;
+                }
+                Parameter VacationGanttChartDuration {
+                    IndexDomain: (f,w,v);
+                }
+            }
+        }
+        Section Planning_Overview {
+            Procedure UpdatePlanningGanttChart {
+                Arguments: (iw);
+                Body: {
+                    PlanningGanttChartDuration(f,p,iw,'In Use'):=1 onlyif
+                    	(OverallLineUsagePlanning(f,p,iw) and not OverallMaintenancePlanning(f,p,iw));
+                    
+                    PlanningGanttChartDuration(f,p,iw,'In Maintenance'):=1 onlyif
+                    	OverallMaintenancePlanning(f,p,iw);
+                }
+                ElementParameter iw {
+                    Range: Weeks;
+                    Property: Input;
+                }
+            }
+            DeclarationSection Planning_Gantt_Chart_Declarations {
+                Parameter PlanningGanttChartDuration {
+                    IndexDomain: (r,w,b);
+                }
+                ElementParameter PlanningGanttChartStartingWeek {
+                    IndexDomain: w;
+                    Range: Weeks;
+                    Definition: w;
+                }
+                Set PlanningGanttChartBarTypes {
+                    Index: b;
+                    Definition: data{'In Use','In Maintenance'};
+                }
+                Set PlanningGanttChartRows {
+                    SubsetOf: (Factories, ProductionLines);
+                    Index: r;
+                    Definition: {
+                        {(f,p)|p in FactoryProductionLines(f)}
+                    }
+                }
+            }
+        }
+        Section Scenario_Overview;
+        Section Softdrink_Planning_Menubar {
+            Procedure ShowModelSummary {
+                Body: {
+                    ShowHelpTopic("section.3.4","Tutorial/AIMMS_tutorial_for_professionals.pdf");
+                }
+            }
+        }
+        Section Data_Management {
+            Procedure RunExperiment {
+                Body: {
+                    NumberOfPeriodsInPlanningInterval :=4;
+                    
+                    repeat "outer-loop"
+                    	MovePlanningIntervalToStartOfCalendar;
+                    	AccumulateTotalCost:=0;
+                    	CurrentPeriod:=FirstPeriodInPlanningInterval;
+                    
+                    	while(LastWeekInPlanningInterval<LastWeekInClaendar) do "inner-loop"
+                    		RollHorizonOnce;
+                    		AccumulateTotalCost+=TotalCostInCurrentPeriod;
+                    		PageRefreshAll;
+                    		break "inner-loop" when (LeastCostPlan.ProgramStatus <> 'Optimal');
+                    	endwhile;
+                    	if (LeastCostPlan.ProgramStatus <> 'Optimal') then
+                    		AccumulateTotalCost:=0;
+                    	else
+                    		for (t|t>FirstPeriodInPlanningInterval) do
+                    			CurrentPeriod:=t;
+                    			AccumulateTotalCost+=TotalCostInCurrentPeriod;
+                    		endfor;
+                    	endif;
+                    
+                    	SaveCase(formatstring("Length-\%n",NumberOfPeriodsInPlanningInterval));
+                    	break "outer-loop" when (NumberOfPeriodsInPlanningInterval=10);
+                    	NumberOfPeriodsInPlanningInterval+=1;
+                    endrepeat;
+                }
+            }
+            Procedure SaveCase {
+                Arguments: (CaseName);
+                Body: {
+                    CaseFileSave(
+                    	url:FormatString("Cases\\\%s.data",CaseName),
+                    	contents:AccumulateTotalCostIdentifiers
+                    );
+                }
+                StringParameter CaseName {
+                    Property: Input;
+                }
+            }
+            Procedure HolidayAndVacationDataSave {
+                Body: {
+                    CaseFileSave(
+                    	url : "Cases\\Vacation and Holidays.data",
+                    	contents : VacationAndHolidayIdentifiers);
+                }
+            }
+            DeclarationSection Data_Management_Declaration {
+                Set AccumulateTotalCostIdentifiers {
+                    SubsetOf: AllIdentifiers;
+                    Definition: data { AccumulateTotalCost };
+                }
+                Parameter AccumulateTotalCost {
+                    Unit: $;
+                }
+                Parameter TotalCostInCurrentPeriod {
+                    Unit: $;
+                    Definition: {
+                        sum[ s, ScenarioPorobability(s) * (
+                        sum[ (f,p), FixedCostDueToLeaveChange *
+                        ProductionLineLevelChange(f, p, CurrentPeriod) ] +
+                        sum[ f, UnitProductionCost(f) * Production(f, CurrentPeriod) ] +
+                        sum[ l, UnitStockCost(l) * Stock(l, CurrentPeriod, s) ]+
+                        sum[ (f,c), UnitTransportCost(f, c) * Transport(f, c, CurrentPeriod , s) ] ) ]
+                    }
+                }
+                ElementParameter CurrentPeriod {
+                    Range: Periods;
+                }
+                Set VacationAndHolidayIdentifiers {
+                    SubsetOf: AllIdentifiers;
+                    Definition: data { HolidayGanttChartDuration, VacationGanttChartDuration };
+                }
+            }
+        }
+    }
+    Procedure PostMainInitialization {
+        Comment: {
+            "Add initialization statements here that require that the libraries are already initialized properly,
+            or add statements that require the Data Management module to be initialized."
+        }
+    }
+    Procedure MainExecution;
+    Procedure PreMainTermination {
+        Body: {
+            return DataManagementExit();
+        }
+        Comment: {
+            "Add termination statements here that require all libraries to be still alive.
+            Return 1 if you allow the termination sequence to continue.
+            Return 0 if you want to cancel the termination sequence."
+        }
+    }
+    Procedure MainTermination {
+        Body: {
+            return 1;
+        }
+        Comment: {
+            "Add termination statements here that do not require all libraries to be still alive.
+            Return 1 to allow the termination sequence to continue.
+            Return 0 if you want to cancel the termination sequence.
+            It is recommended to only use the procedure PreMainTermination to cancel the termination sequence and let this procedure always return 1."
+        }
+    }
+}

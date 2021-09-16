@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<Page Version="4000" TimeStamp="2021-09-14 07:19:32">
+	<PageEditSize Type="Inherited" />
+	<ProjectUUID>F87FBCD4-99DE-40AD-ADC6-A24B3849DCE5</ProjectUUID>
+	<TemplatesTabOrderPosition>1</TemplatesTabOrderPosition>
+	<Background Inherited="true" />
+	<PageObject Type="Gantt Chart">
+		<Location top="60" left="192" bottom="258" right="810" />
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<ColorScheme Number="0" />
+		<Legend>true</Legend>
+		<Y-Labels>true</Y-Labels>
+		<X-Labels>true</X-Labels>
+		<VerticalGridLines>true</VerticalGridLines>
+		<StatusLine>true</StatusLine>
+		<Calendar>
+			<Items>mwY</Items>
+			<MeasurementFactor>1</MeasurementFactor>
+			<MeasurementUnit>weeks</MeasurementUnit>
+			<ReferenceTime>"2000-06-2"</ReferenceTime>
+			<LeftBound>BeginDateOfCalendar</LeftBound>
+			<RightBound>EndDateOfCalendar</RightBound>
+		</Calendar>
+		<IndexLocations>
+			<RowDomain>r</RowDomain>
+			<LegendDomain>b</LegendDomain>
+		</IndexLocations>
+		<TaskGroup>
+			<Domain>PlanningGanttChartDuration( r, w, b )</Domain>
+			<Start>PlanningGanttChartStartingWeek( w )</Start>
+			<Duration>PlanningGanttChartDuration( r, w, b )</Duration>
+		</TaskGroup>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="306" left="192" bottom="450" right="390" />
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>OverallMaintenancePlanning( 'Eindhoven', p, w )</Identifier>
+			<Index Name="p" />
+			<Index Name="w" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>OverallMaintenancePlanning( 'Eindhoven', p, w )</Identifier>
+			<NumberFormat Width="7" Decimals="3" Alignment="Center" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="306" left="402" bottom="450" right="600" />
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>OverallMaintenancePlanning( 'Haarlem', p, w )</Identifier>
+			<Index Name="p" />
+			<Index Name="w" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>OverallMaintenancePlanning( 'Haarlem', p, w )</Identifier>
+			<NumberFormat Width="7" Decimals="3" Alignment="Center" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Composite Table">
+		<Location top="306" left="612" bottom="450" right="810" />
+		<Font GUID="00000000-0000-0000-0000-000000000001" Name="Main Font" />
+		<Border Style="InShadow" Width="2" MarginTop="5" MarginRight="5" MarginBottom="5" MarginLeft="5" />
+		<BackgroundColor RGB="#ffffff" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+		<Domain>
+			<Identifier>OverallMaintenancePlanning( 'Zwolle', p, w )</Identifier>
+			<Index Name="p" />
+			<Index Name="w" />
+		</Domain>
+		<ExplicitIdentifier>
+			<Identifier>OverallMaintenancePlanning( 'Zwolle', p, w )</Identifier>
+			<NumberFormat Width="7" Decimals="3" Alignment="Center" />
+		</ExplicitIdentifier>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="36" left="198" bottom="54" right="498" />
+		<StaticText>Maintenance and Production Planning</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="264" left="192" bottom="294" right="492" />
+		<StaticText>Maintenance Planning</StaticText>
+		<Font GUID="A4BECD14-28EC-4738-ADD5-DC1D88B9F4DA" Name="Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="282" left="192" bottom="306" right="300" />
+		<StaticText>Eindhoven</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="282" left="402" bottom="306" right="510" />
+		<StaticText>Haarlem</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Text">
+		<Location top="282" left="612" bottom="306" right="720" />
+		<StaticText>Zwolle</StaticText>
+		<Font GUID="6E6B5524-8736-47F3-B08B-38188317E6F7" Name="Little Title Font" />
+		<TextColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</TextColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="36" left="186" bottom="264" right="816" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<PageObject Type="Rectangle">
+		<Location top="264" left="186" bottom="456" right="816" />
+		<Shape>Open</Shape>
+		<FillColor RGB="#ffffff" />
+		<LineColor>
+			<UserColor GUID="8387D389-3F4A-4D87-9199-53B0EDCD0359">navy blue</UserColor>
+		</LineColor>
+	</PageObject>
+	<UsedReferences>
+		<Model>
+			<Symbol>EndDateOfCalendar</Symbol>
+			<Symbol>BeginDateOfCalendar</Symbol>
+			<Symbol>OverallMaintenancePlanning</Symbol>
+			<Symbol>w</Symbol>
+			<Symbol>p</Symbol>
+			<Symbol>r</Symbol>
+			<Symbol>b</Symbol>
+			<Symbol>PlanningGanttChartStartingWeek</Symbol>
+			<Symbol>PlanningGanttChartDuration</Symbol>
+		</Model>
+	</UsedReferences>
+</Page>

@@ -1,0 +1,22 @@
+## ams_version=1.0
+
+Section Quantities_and_Units {
+    DeclarationSection Quantity_Declarations {
+        Quantity Currency {
+            BaseUnit: $;
+        }
+        Quantity SI_Time_Duration {
+            BaseUnit: day;
+            Conversions: week -> day : # -> # * 7;
+            Comment: "Expresses the value for the duration of periods.";
+        }
+        Quantity SI_Volume {
+            BaseUnit: m3;
+            Conversions: {
+                hl -> m3 : # -> # / 10,
+                TL -> m3 : # -> # * 12
+            }
+            Comment: "Expresses the value of solid content.";
+        }
+    }
+}

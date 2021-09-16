@@ -1,0 +1,12 @@
+﻿* AIMMS
+rounding_compatibility Aimms_3_7
+warning_calendar_week_begin off
+* AOA
+* CBC 2.9
+* CPLEX 12.6.3
+* CPLEX 12.8
+* IPOPT 3.11
+* NETSOL
+* Environment
+Startup_Page "Contents"
+Startup_Case "Cases\Vacation and Holidays.data"
